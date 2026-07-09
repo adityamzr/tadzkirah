@@ -1,0 +1,22 @@
+{
+  "id": "hadith-cleanliness",
+  "slug": "cleanliness",
+  "type": "hadith",
+  "title": "Cleanliness is half of faith",
+  "reference": "Sahih Muslim No. 223",
+  "category": "Taharah",
+  "arabic": "الطُّهُورُ شَطْرُ الإِيمَانِ",
+  "latin": "At-thuhuru syatrul iman",
+  "translation": "Cleanliness is half of faith.",
+  "lesson": "Physical purity reflects inner purity. Wudu is not just ritual, it's reset.",
+  "tags": [
+    "cleanliness",
+    "wudu",
+    "faith",
+    "taharah"
+  ],
+  "related": [
+    "reminder-wudu"
+  ],
+  "createdAt": "2024-02-06"
+}

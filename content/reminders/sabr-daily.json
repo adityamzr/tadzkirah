@@ -1,0 +1,21 @@
+{
+  "id": "reminder-sabr-daily",
+  "slug": "reminder-sabr-daily",
+  "type": "reminder",
+  "title": "Sabr is not passive waiting",
+  "reference": "Personal Reflection",
+  "category": "Sabr",
+  "translation": "Sabr is active. It is restraining tongue from complaint, hand from harm, heart from despair. It's doing what you can while trusting Allah with what you can't.",
+  "lesson": "Whenever I feel like complaining, I remember sabr is three types: sabr in obedience, sabr from disobedience, sabr in tribulation. Practice all three.",
+  "tags": [
+    "sabr",
+    "reminder",
+    "patience",
+    "daily"
+  ],
+  "related": [
+    "quran-al-baqarah-286",
+    "hadith-sabr-tirmidhi"
+  ],
+  "createdAt": "2024-04-01"
+}

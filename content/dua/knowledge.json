@@ -1,0 +1,24 @@
+{
+  "id": "dua-knowledge",
+  "slug": "dua-knowledge",
+  "type": "dua",
+  "title": "Du'a for Beneficial Knowledge",
+  "reference": "Sunan Ibn Majah, Sahih",
+  "category": "Ilm",
+  "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
+  "latin": "Allahumma inni as'aluka 'ilman naafi'an, wa rizqan thayyiban, wa 'amalan mutaqabbalan",
+  "translation": "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.",
+  "lesson": "Recite every morning after Fajr. Three things to ask daily: knowledge that benefits, provision that is pure, deeds that are accepted.",
+  "tags": [
+    "dua",
+    "ilm",
+    "rizq",
+    "morning",
+    "fajr"
+  ],
+  "related": [
+    "hadith-best-tirmidhi",
+    "reminder-on-knowledge"
+  ],
+  "createdAt": "2024-03-01"
+}
