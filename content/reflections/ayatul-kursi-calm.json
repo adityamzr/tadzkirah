@@ -2,18 +2,25 @@
   "id": "reflection-ayatul-kursi-calm",
   "slug": "reflection-ayatul-kursi-calm",
   "type": "reflection",
-  "title": "How Ayatul Kursi became my nightly calm",
-  "reference": "Personal Journey Log",
+  "title": "Bagaimana Ayat Kursi menjadi penenang malamku",
+  "reference": "Jurnal Perjalanan Pribadi",
   "category": "Tadabbur",
-  "translation": "At night when anxiety peaks, reciting Ayatul Kursi slowly, understanding 'Allahu la ta'khudhuhu sinatun wa la naum' - He never sleeps, so I can.",
-  "lesson": "We worry because we feel we must stay awake guarding our affairs. But Allah Al-Qayyum sustains all existence without sleep. Trust His wakefulness.",
-  "reflection": "Started routine: recite Ayatul Kursi after every salah for 40 days. Effect: less anxiety, more presence.",
+  "translation": "Di malam hari saat kecemasan memuncak, membaca Ayat Kursi pelan-pelan, memahami 'Allah tidak mengantuk dan tidak tidur' - Dia tidak pernah tidur, jadi aku bisa tidur.",
+  "lesson": [
+    "Kita khawatir karena merasa harus tetap terjaga menjaga urusan kita. Padahal Allah Al-Qayyum mengatur semua keberadaan tanpa tidur. Percayakan pada terjaganya Dia."
+  ],
+  "reflection": "Mulai rutinitas: baca Ayat Kursi setelah setiap shalat selama 40 hari. Efek: lebih sedikit cemas, lebih hadir.",
   "tags": [
-    "ayatul-kursi",
-    "anxiety",
-    "sleep",
+    "ayat-kursi",
+    "cemas",
+    "tidur",
     "qayyum",
-    "personal"
+    "pribadi"
+  ],
+  "keywords": [
+    "ayat kursi",
+    "cemas",
+    "tidur"
   ],
   "related": [
     "quran-al-baqarah-255",

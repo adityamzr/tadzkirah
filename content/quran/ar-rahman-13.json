@@ -2,18 +2,24 @@
   "id": "quran-ar-rahman-13",
   "slug": "ar-rahman-13",
   "type": "quran",
-  "title": "Which of the favors of your Lord will you deny?",
+  "title": "Maka nikmat Tuhanmu yang manakah yang kamu dustakan?",
   "reference": "QS. Ar-Rahman: 13",
-  "category": "Shukr",
+  "category": "Syukur",
   "arabic": "فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ",
   "latin": "Fabi ayyi alaa-i rabbikuma tukazziban",
-  "translation": "So which of the favors of your Lord would you deny?",
-  "lesson": "A rhythmic reminder to pause and count blessings. Gratitude is not a feeling, it's a practice of noticing.",
+  "translation": "Maka nikmat Tuhanmu yang manakah yang kamu dustakan?",
+  "lesson": [
+    "Pengingat berirama untuk berhenti sejenak dan menghitung nikmat. Syukur bukan sekadar perasaan, tapi latihan memperhatikan hal-hal kecil."
+  ],
   "tags": [
-    "shukr",
-    "gratitude",
+    "syukur",
     "ar-rahman",
-    "reflection"
+    "refleksi"
+  ],
+  "keywords": [
+    "nikmat",
+    "syukur",
+    "bersyukur"
   ],
   "related": [
     "quran-al-baqarah-152",

@@ -2,18 +2,24 @@
   "id": "reminder-gratitude",
   "slug": "reminder-gratitude",
   "type": "reminder",
-  "title": "Gratitude increases what you love",
+  "title": "Syukur menambah apa yang kamu cinta",
   "reference": "QS. Ibrahim: 7",
-  "category": "Shukr",
+  "category": "Syukur",
   "arabic": "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
   "latin": "La in syakartum la azidannakum",
-  "translation": "If you are grateful, I will surely increase you [in favor].",
-  "lesson": "Shukr is retention and increase. Complain less, praise more. Count at least three blessings before sleeping.",
+  "translation": "Sesungguhnya jika kamu bersyukur, pasti Kami akan menambah nikmat kepadamu.",
+  "lesson": [
+    "Syukur adalah penjaga dan penambah. Kurangi mengeluh, perbanyak memuji. Hitung minimal tiga nikmat sebelum tidur."
+  ],
   "tags": [
-    "shukr",
-    "gratitude",
-    "increase",
-    "blessings"
+    "syukur",
+    "nikmat",
+    "bersyukur"
+  ],
+  "keywords": [
+    "syukur",
+    "nikmat",
+    "bersyukur"
   ],
   "related": [
     "quran-ar-rahman-13"

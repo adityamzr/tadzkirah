@@ -1,0 +1,32 @@
+{
+  "id": "quran-al-baqarah-1",
+  "slug": "al-baqarah-1",
+  "type": "quran",
+  "title": "Judul ayat dalam Bahasa Indonesia",
+  "reference": "QS. Al-Baqarah: 1",
+  "category": "Tauhid",
+  "subcategory": "Contoh subkategori opsional",
+  "arabic": "الم",
+  "latin": "Alif Lam Mim",
+  "translation": "Terjemahan ayat dalam Bahasa Indonesia",
+  "lesson": [
+    "Pelajaran pertama dari ayat ini",
+    "Pelajaran kedua jika ada"
+  ],
+  "reflection": "Catatan pribadi opsional",
+  "tags": ["tauhid", "al-baqarah"],
+  "keywords": ["kata kunci", "pencarian"],
+  "related": ["quran-al-baqarah-286", "hadith-bukhari-1"],
+  "youtube": [
+    {
+      "title": "Judul kajian",
+      "speaker": "Nama pemateri",
+      "channel": "Nama channel",
+      "youtubeId": "VIDEO_ID_YOUTUBE",
+      "duration": "12:34",
+      "description": "Deskripsi singkat kajian"
+    }
+  ],
+  "source": "Al-Quran Al-Karim",
+  "createdAt": "2024-01-01"
+}

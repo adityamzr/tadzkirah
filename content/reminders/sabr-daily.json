@@ -2,16 +2,21 @@
   "id": "reminder-sabr-daily",
   "slug": "reminder-sabr-daily",
   "type": "reminder",
-  "title": "Sabr is not passive waiting",
-  "reference": "Personal Reflection",
-  "category": "Sabr",
-  "translation": "Sabr is active. It is restraining tongue from complaint, hand from harm, heart from despair. It's doing what you can while trusting Allah with what you can't.",
-  "lesson": "Whenever I feel like complaining, I remember sabr is three types: sabr in obedience, sabr from disobedience, sabr in tribulation. Practice all three.",
+  "title": "Sabar bukan menunggu pasif",
+  "reference": "Catatan Pribadi",
+  "category": "Sabar",
+  "translation": "Sabar itu aktif. Menahan lisan dari keluhan, tangan dari menyakiti, hati dari putus asa. Mengerjakan apa yang bisa kamu kerjakan sambil bertawakal kepada Allah untuk hal yang tidak bisa.",
+  "lesson": [
+    "Saat ingin mengeluh, ingat sabar ada tiga jenis: sabar dalam ketaatan, sabar dari kemaksiatan, sabar dalam musibah. Latih ketiganya."
+  ],
   "tags": [
-    "sabr",
-    "reminder",
-    "patience",
-    "daily"
+    "sabar",
+    "pengingat",
+    "harian"
+  ],
+  "keywords": [
+    "sabar aktif",
+    "pengingat sabar"
   ],
   "related": [
     "quran-al-baqarah-286",

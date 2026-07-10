@@ -7,30 +7,25 @@ import Link from "next/link"
 import { BookOpen, Heart, FileText, Lightbulb, NotebookPen } from "lucide-react"
 
 const typeConfig = {
-  quran: { label: "Quran", icon: BookOpen, color: "bg-[#69C4E8]/15 text-[#69C4E8]", dot: "bg-[#69C4E8]" },
-  hadith: { label: "Hadith", icon: FileText, color: "bg-[#171717]/10 text-[#171717] dark:bg-white/10 dark:text-white", dot: "bg-[#171717] dark:bg-white" },
-  dua: { label: "Du'a", icon: Heart, color: "bg-[#C89B3C]/15 text-[#C89B3C]", dot: "bg-[#C89B3C]" },
-  reminder: { label: "Reminder", icon: Lightbulb, color: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400", dot: "bg-emerald-500" },
-  reflection: { label: "Reflection", icon: NotebookPen, color: "bg-violet-500/10 text-violet-600 dark:text-violet-400", dot: "bg-violet-500" },
+  quran: { label: "Quran", labelId: "Quran", icon: BookOpen, color: "bg-[#69C4E8]/15 text-[#69C4E8]", dot: "bg-[#69C4E8]" },
+  hadith: { label: "Hadis", labelId: "Hadits", icon: FileText, color: "bg-[#171717]/10 text-[#171717] dark:bg-white/10 dark:text-white", dot: "bg-[#171717] dark:bg-white" },
+  dua: { label: "Doa", labelId: "Doa", icon: Heart, color: "bg-[#C89B3C]/15 text-[#C89B3C]", dot: "bg-[#C89B3C]" },
+  reminder: { label: "Pengingat", labelId: "Pengingat", icon: Lightbulb, color: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400", dot: "bg-emerald-500" },
+  reflection: { label: "Catatan", labelId: "Catatan Pribadi", icon: NotebookPen, color: "bg-violet-500/10 text-violet-600 dark:text-violet-400", dot: "bg-violet-500" },
 }
 
 export function SearchResultCard({ entry, query }: { entry: ContentEntry; query?: string }) {
   const config = typeConfig[entry.type] || typeConfig.reminder
   const Icon = config.icon
 
-  // highlight query (simple)
-  const highlight = (text: string | undefined) => {
-    if (!text || !query) return text
-    const terms = query.toLowerCase().split(/\s+/).filter(Boolean)
-    let result = text
-    // naive highlight - we keep plain for accessibility, use mark only visual? keep simple
-    return result
-  }
+  const lessonText = Array.isArray(entry.lesson) ? entry.lesson[0] : entry.lesson
+  const displayText = entry.translation || lessonText
 
   return (
     <Link
       href={`/${entry.type}/${entry.slug}`}
       className="group block rounded-2xl border border-border bg-card p-5 text-left transition-all duration-200 hover:border-[#69C4E8]/30 hover:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.15)] hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#69C4E8]/30"
+      aria-label={`Buka ${config.labelId}: ${entry.title}`}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-2.5">
@@ -59,9 +54,9 @@ export function SearchResultCard({ entry, query }: { entry: ContentEntry; query?
         </p>
       )}
 
-      {(entry.translation || entry.lesson) && (
+      {displayText && (
         <p className="mt-3 line-clamp-2 text-[14px] leading-relaxed text-muted-foreground">
-          {highlight(entry.translation || entry.lesson)}
+          {typeof displayText === 'string' ? displayText : ''}
         </p>
       )}
 

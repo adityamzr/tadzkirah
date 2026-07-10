@@ -2,16 +2,23 @@
   "id": "reminder-on-time",
   "slug": "reminder-on-time",
   "type": "reminder",
-  "title": "Time is your real capital",
-  "reference": "Personal Note",
-  "category": "Time",
-  "translation": "You are not running out of time. You are running out of focus. Al-Asr reminds us: time alone is loss unless filled with iman, amal, truth, and patience.",
-  "lesson": "Time audit every night: Did I invest my hours in what matters for akhirah? Barakah in time comes from Fajr and intention.",
+  "title": "Waktu adalah modal utamamu",
+  "reference": "Catatan Pribadi",
+  "category": "Waktu",
+  "translation": "Kamu tidak kehabisan waktu. Kamu kehabisan fokus. Al-Asr mengingatkan: waktu saja adalah kerugian kecuali diisi dengan iman, amal, kebenaran, dan kesabaran.",
+  "lesson": [
+    "Audit waktu tiap malam: Apakah jam-jamku kuinvestasikan untuk akhirat? Keberkahan waktu datang dari Subuh dan niat."
+  ],
   "tags": [
-    "time",
-    "barakah",
-    "focus",
+    "waktu",
+    "barokah",
+    "fokus",
     "asr"
+  ],
+  "keywords": [
+    "waktu",
+    "barokah",
+    "fokus"
   ],
   "related": [
     "quran-al-asr-1-3"

@@ -2,17 +2,24 @@
   "id": "quran-al-baqarah-152",
   "slug": "al-baqarah-152",
   "type": "quran",
-  "title": "Remember Me, I will remember you",
+  "title": "Ingatlah Aku, niscaya Aku ingat kalian",
   "reference": "QS. Al-Baqarah: 152",
-  "category": "Dhikr",
+  "category": "Dzikir",
   "arabic": "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ",
   "latin": "Fadzkuruni adzkurkum washkuru li wa la takfurun",
-  "translation": "So remember Me; I will remember you. And be grateful to Me and do not deny Me.",
-  "lesson": "The greatest honor: Allah remembers you when you remember Him. Dhikr is not small, it's a direct connection.",
+  "translation": "Maka ingatlah kepada-Ku, Aku pun akan ingat kepadamu. Bersyukurlah kepada-Ku dan janganlah kamu ingkar kepada-Ku.",
+  "lesson": [
+    "Kemuliaan terbesar: Allah mengingatmu saat kamu mengingat-Nya. Dzikir bukan hal kecil, ini koneksi langsung."
+  ],
   "tags": [
-    "dhikr",
-    "gratitude",
-    "remembrance"
+    "dzikir",
+    "syukur",
+    "ingat"
+  ],
+  "keywords": [
+    "dzikir",
+    "ingat Allah",
+    "syukur"
   ],
   "related": [
     "dua-dhikr-morning",

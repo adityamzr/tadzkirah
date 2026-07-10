@@ -2,18 +2,25 @@
   "id": "quran-al-hujurat-12",
   "slug": "al-hujurat-12",
   "type": "quran",
-  "title": "Avoid much [negative] assumption",
+  "title": "Jauhilah banyak prasangka",
   "reference": "QS. Al-Hujurat: 12",
-  "category": "Akhlaq",
+  "category": "Akhlak",
   "arabic": "يَا أَيُّهَا الَّذِينَ آمَنُوا اجْتَنِبُوا كَثِيرًا مِّنَ الظَّنِّ إِنَّ بَعْضَ الظَّنِّ إِثْمٌ",
   "latin": "Ya ayyuhalladzina amanu ijtanibu kathiran minaz zanni inna ba'daz zanni ithm",
-  "translation": "O you who have believed, avoid much [negative] assumption. Indeed, some assumption is sin.",
-  "lesson": "Husnuzan (good assumption) is an act of worship. Protect your heart from assuming the worst about others.",
+  "translation": "Wahai orang-orang yang beriman! Jauhilah banyak dari prasangka, sesungguhnya sebagian prasangka itu dosa.",
+  "lesson": [
+    "Husnuzan (berbaik sangka) adalah ibadah. Jaga hatimu dari berprasangka buruk kepada orang lain."
+  ],
   "tags": [
-    "akhlaq",
+    "akhlak",
     "husnuzan",
-    "assumption",
-    "heart"
+    "prasangka",
+    "hati"
+  ],
+  "keywords": [
+    "prasangka",
+    "husnuzan",
+    "akhlak"
   ],
   "related": [
     "reminder-ghibah"

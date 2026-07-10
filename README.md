@@ -1,129 +1,157 @@
-# Tadzkirah — Personal Islamic Knowledge Base
+# Tadzkirah — Pengingat Pribadi Al-Quran & Sunnah
 
-> A personal reminder through the Quran and Sunnah.
+> Pengingat pribadi melalui Al-Quran dan Sunnah.
 
-Modern, minimalist, reading-focused personal knowledge base inspired by **Google Search × Notion × Apple HIG**. Built for instant searching of Quran verses, authentic Hadith, Du'a, and personal reflections. No social features. No distractions.
+Basis pengetahuan pribadi yang modern, minimalis, fokus pada bacaan. Terinspirasi **Google Search × Notion × Apple HIG**. Dibuat untuk pencarian instan ayat Al-Quran, hadits shahih, doa autentik, dan catatan pribadi. Tanpa fitur sosial. Tanpa distraksi.
 
-**Color inspiration:** Masjidil Haram — Sky Blue `#69C4E8`, Kaaba Black `#171717`, Kiswah Gold `#C89B3C`.
+**Inspirasi warna:** Masjidil Haram — Biru Langit `#69C4E8`, Hitam Ka'bah `#171717`, Emas Kiswah `#C89B3C`.
+
+**Bahasa:** Seluruh antarmuka dalam Bahasa Indonesia. Arab hanya untuk teks Quran/Hadits/Doa asli.
 
 ---
 
-### ✨ Principles
+### ✨ Prinsip
 
-- Calm, peaceful, premium, modern, minimal
-- No traditional ornaments, no heavy gradients
-- Search-first. Everything else is secondary.
-- Readability over decoration
+- Tenang, damai, premium, modern, minimalis
+- Tanpa ornamen tradisional, tanpa gradien berat
+- Pencarian sebagai fitur utama
+- Keterbacaan di atas dekorasi
 
-### 🎨 Design System
+### 🎨 Sistem Desain
 
 - **Primary:** Sky Blue `#69C4E8`
 - **Secondary:** Kaaba Black `#171717`
-- **Accent:** Kiswah Gold `#C89B3C` — subtle only
-- **Background Light:** `#FFFFFF`, **Dark:** `#0D1117`
+- **Accent:** Kiswah Gold `#C89B3C` — hanya aksen halus
+- **BG Light:** `#FFFFFF`, **Dark:** `#0D1117`
 - **Cards:** Light White, Dark `#161B22`
-- **Typography:** UI `Inter` / `Geist`, Arabic `Amiri` / `Noto Naskh Arabic`
-- **Radius:** 16-20px, soft shadows, backdrop blur
+- **Typography:** UI `Inter` / `Geist`, Arab `Amiri` / `Noto Naskh Arabic`
+- **Radius:** 16-20px, soft shadow, backdrop blur
 
-### 📂 Architecture
+### 📂 Arsitektur & Loader Fleksibel
 
 ```
-content/
-  quran/*.json
-  hadith/*.json
-  dua/*.json
-  reminders/*.json
-  reflections/*.json
+/content
+  /quran/*.json
+  /hadith/*.json
+  /dua/*.json
+  /reminders/*.json
+  /reflections/*.json
+  /collections/*.json  → mendukung Format C (collection)
+  **/*.json            → dipindai rekursif, dimanapun bebas
+  /templates/*.json    → tidak di-index (hanya contoh)
 
 src/
   app/
-    page.tsx              # Google-like landing + instant search
-    [type]/[slug]/page.tsx # Content detail
-  components/
-    ui/                   # button, input, badge, card
-    search/               # SearchBar, SearchResults, ResultCard
-    content/              # ArabicText, Translation, Lessons, Related, YouTube
-    layout/               # ThemeProvider, ThemeToggle
+    page.tsx              # Landing mirip Google + pencarian instan
+    [type]/[slug]/page.tsx # Halaman detail konten
   lib/
-    types.ts              # ContentEntry schema
-    content.ts            # FS loader (server-only)
-    search.ts             # Client search
+    content.ts            # Loader fleksibel (server-only) - scan rekursif, defaults, validasi
+    search.ts             # Pencarian client (index title, reference, category, tags, keywords, translation, lesson, reflection)
+    types.ts              # Skema ContentEntry
 ```
 
-### 🧩 JSON Schema
+**Loader mendukung 3 format tanpa konfigurasi:**
 
-Every entry is a human-readable JSON file:
+- **Format A:** Single object `{...}`
+- **Format B:** Array `[{...}, {...}]`
+- **Format C:** Collection `{ version, title, defaults, items: [...] }` dengan pewarisan `defaults`
+
+Tambah file JSON dimanapun di `/content` → otomatis terindeks. Tidak perlu ubah kode.
+
+Lihat **CONTENT_GUIDE.md** untuk dokumentasi lengkap cara menambah konten.
+
+### 🧩 Skema Konten (Ringkas)
+
+Wajib: `id`, `type`, `title`. Sisanya opsional dan aman jika hilang.
 
 ```json
 {
   "id": "quran-al-baqarah-286",
   "slug": "al-baqarah-286",
   "type": "quran",
-  "title": "Allah does not burden a soul...",
+  "title": "Allah tidak membebani seseorang...",
   "reference": "QS. Al-Baqarah: 286",
-  "category": "Sabr",
+  "category": "Sabar",
   "arabic": "لَا يُكَلِّفُ...",
   "latin": "La yukallifullah...",
-  "translation": "Allah does not burden...",
-  "lesson": "This verse is a personal anchor...",
-  "reflection": "When overwhelmed...",
-  "tags": ["sabr", "tawakkul"],
+  "translation": "Allah tidak membebani...",
+  "lesson": ["Pelajaran 1", "Pelajaran 2"],
+  "reflection": "Catatan pribadi",
+  "tags": ["sabar", "tawakal"],
+  "keywords": ["ujian", "kemudahan"],
   "related": ["quran-al-insyirah-5-6"],
-  "youtube": [{ "id": "...", "title": "...", "speaker": "...", "url": "..." }],
+  "youtube": [{ "youtubeId": "...", "title": "...", "speaker": "..." }],
   "createdAt": "2024-01-15"
 }
 ```
 
-Optional fields are safely ignored. Ready for future migration to SQLite/PostgreSQL without frontend changes.
+YouTube mendukung format baru `youtubeId`, `channel`, `speaker` dan format lama `id`, `url`.
 
-### 🔍 Search Experience
+### 🔍 Pengalaman Pencarian (Bahasa Indonesia)
 
-- Large centered search bar (like Google)
-- Instant client-side filtering across title, arabic, translation, lesson, tags, reference, category
-- Filters: All, Quran, Hadith, Du'a, Reminders, Reflections
-- Keyboard: `⌘K` or `/` to focus
-- URL sync `?q=sabr` for shareability
-- Lazy, fast, minimal JS
+- Search bar besar di tengah seperti Google, placeholder: `Cari ayat, hadits, doa, atau topik...`
+- Filtering instan client-side
+- Filter: Semua, Quran, Hadits, Doa, Pengingat, Catatan
+- Keyboard: `⌘K` atau `/` untuk fokus
+- URL sync `?q=sabar`
+- Empty state: `Tidak ditemukan hasil yang sesuai.`
+- Label: `Referensi Terkait`, `Pelajaran & Tadabbur`, `Catatan Pribadi`, `Kajian Terkait`
 
-### 📖 Content Detail
+### 📖 Halaman Detail (Bahasa Indonesia)
 
-Each page supports:
+- Kembali ke pencarian, Bahasa Indonesia penuh
+- Arab dengan Amiri/Noto Naskh RTL
+- Terjemahan, Pelajaran (array support), Catatan Pribadi
+- Tag → klik untuk cari
+- Referensi Terkait (resolve ID otomatis)
+- Kajian Terkait dengan modal player
 
-- Title, reference, category
-- Arabic with Amiri/Noto Naskh (RTL)
-- Latin transliteration (optional)
-- Translation
-- Lesson & Personal Reflection blocks
-- Tags → clickable to search
-- Related references as cards
-- Optional YouTube discussions with modal player
+### 🌓 Tema
 
-### 🌓 Theme
-
-- Light / Dark / System preference
-- Persisted in localStorage
-- `ThemeProvider` with class strategy
+- Terang / Gelap / Sistem, disimpan di localStorage
+- Label: Terang, Gelap, Sistem
 
 ### 🚀 Tech Stack
 
 - Next.js App Router + TypeScript
-- Tailwind CSS v4 + shadcn/ui patterns
+- Tailwind CSS v4 + shadcn/ui
 - Lucide Icons
-- JSON as single source of truth
-- No DB, no CMS, no Auth
+- JSON sebagai single source of truth
+- Tanpa DB, tanpa CMS, tanpa Auth
+- Siap migrasi ke SQLite/PostgreSQL tanpa ubah frontend
 
-### 🔮 Future Extensibility (prepared, not implemented)
+### 📦 Cara Menambah Konten (Plug-and-Play)
 
-Bookmarks, Favorites, Collections, Advanced Filters, Full-text search (SQLite FTS), Reading History, Offline Support, PWA.
+1. Buat file JSON baru dimanapun di `/content`, contoh `content/doa-baru.json`
+2. Isi minimal:
+```json
+{
+  "id": "doa-tidur-baru",
+  "type": "dua",
+  "title": "Doa sebelum tidur"
+}
+```
+3. Simpan → Refresh → Otomatis muncul di pencarian!
 
-Architecture already supports these via `Bookmark`, `Collection` types and flexible schema.
+Template siap pakai ada di `/content/templates/`
 
-### 📦 Getting Started
+Lihat **CONTENT_GUIDE.md** untuk panduan lengkap.
+
+### 📚 Dokumentasi
+
+- `CONTENT_GUIDE.md` — panduan lengkap format JSON, defaults, related, youtube
+- `content/templates/*` — template siap copy untuk semua tipe konten
+
+### 🔮 Ekstensibilitas Masa Depan
+
+Bookmark, Koleksi, Filter Lanjutan, Full-text Search (FTS), Riwayat Baca, Offline, PWA — arsitektur sudah disiapkan (tipe `Bookmark`, `Collection`).
+
+### 📦 Menjalankan
 
 ```bash
 npm install
 npm run dev
-# open http://localhost:3000
+# buka http://localhost:3000
 ```
 
 Build:
@@ -133,19 +161,6 @@ npm run build
 npm run start
 ```
 
-### ✅ Deliverables
-
-- Complete landing page (Logo, Name, Tagline, Search)
-- Responsive layout (mobile reading comfort)
-- Design system (colors, typography)
-- Light & Dark theme
-- Search interface + results
-- Content detail page
-- Related content + YouTube sections
-- Flexible JSON architecture
-- Component-based structure
-- Clean folder organization
-
 ---
 
-Built for reflection, not distraction.
+Dibuat untuk refleksi, bukan distraksi. Pengingat pribadi melalui Al-Quran dan Sunnah.

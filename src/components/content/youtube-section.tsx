@@ -3,36 +3,58 @@
 import { YouTubeReference } from "@/lib/types"
 import { Play, Clock, User } from "lucide-react"
 import { useState } from "react"
+import { getNormalizedYouTube } from "@/lib/content"
+import { ContentEntry } from "@/lib/types"
+
+function normalizeForDisplay(v: YouTubeReference) {
+  let id = v.youtubeId || v.id || ""
+  if (!id && v.url) {
+    const m = v.url.match(/(?:v=|\.be\/|embed\/)([A-Za-z0-9_-]{6,})/)
+    if (m) id = m[1]
+  }
+  if (id.includes("youtube.com") || id.includes("youtu.be")) {
+    const m = id.match(/(?:v=|\.be\/|embed\/)([A-Za-z0-9_-]{6,})/)
+    if (m) id = m[1]
+  }
+  return {
+    id,
+    title: v.title,
+    speaker: v.speaker,
+    channel: v.channel,
+    duration: v.duration,
+    description: v.description,
+    thumbnail: v.thumbnail || (id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : ""),
+    url: v.url || (id ? `https://www.youtube.com/watch?v=${id}` : "#"),
+  }
+}
 
 export function YouTubeSection({ videos }: { videos?: YouTubeReference[] }) {
-  const [active, setActive] = useState<YouTubeReference | null>(null)
+  const [active, setActive] = useState<ReturnType<typeof normalizeForDisplay> | null>(null)
 
   if (!videos || videos.length === 0) return null
 
-  const getThumb = (v: YouTubeReference) => {
-    if (v.thumbnail) return v.thumbnail
-    // try extract id from youtube url
-    const match = v.url.match(/(?:v=|\.be\/)([A-Za-z0-9_-]+)/)
-    const id = match ? match[1] : v.id
-    return `https://img.youtube.com/vi/${id}/hqdefault.jpg`
-  }
+  const normalized = videos.map(normalizeForDisplay).filter(v => v.id && v.title)
+
+  if (normalized.length === 0) return null
 
   return (
     <div className="space-y-4">
-      <h2 className="text-[13px] font-semibold uppercase tracking-widest text-muted-foreground">Discussions</h2>
+      <h2 className="text-[13px] font-semibold uppercase tracking-widest text-muted-foreground">Kajian Terkait</h2>
 
       <div className="grid gap-4 md:grid-cols-2">
-        {videos.map((video) => (
+        {normalized.map((video) => (
           <button
             key={video.id}
             onClick={() => setActive(video)}
             className="group flex gap-3.5 rounded-2xl border border-border bg-card p-3 text-left transition-all hover:border-[#69C4E8]/30 hover:shadow-sm text-start"
+            aria-label={`Putar kajian ${video.title}`}
           >
             <div className="relative h-[84px] w-[120px] shrink-0 overflow-hidden rounded-xl bg-muted">
               <img
-                src={getThumb(video)}
+                src={video.thumbnail}
                 alt={video.title}
                 className="h-full w-full object-cover transition-transform group-hover:scale-[1.03]"
+                loading="lazy"
               />
               <div className="absolute inset-0 grid place-items-center bg-black/20 backdrop-blur-[0.5px] transition-colors group-hover:bg-black/30">
                 <div className="grid h-8 w-8 place-items-center rounded-full bg-white/95 text-black shadow">
@@ -50,10 +72,10 @@ export function YouTubeSection({ videos }: { videos?: YouTubeReference[] }) {
               <p className="line-clamp-2 text-[14px] font-medium leading-snug group-hover:text-foreground">
                 {video.title}
               </p>
-              {video.speaker && (
+              {(video.speaker || video.channel) && (
                 <div className="mt-1.5 flex items-center gap-1 text-[12px] text-muted-foreground">
                   <User className="h-3 w-3" />
-                  {video.speaker}
+                  {video.speaker || video.channel}
                 </div>
               )}
               {video.duration && (
@@ -82,10 +104,10 @@ export function YouTubeSection({ videos }: { videos?: YouTubeReference[] }) {
             <div className="flex items-center justify-between bg-[#161B22] p-4">
               <div>
                 <p className="text-[14px] font-medium text-white">{active.title}</p>
-                {active.speaker && <p className="text-[12px] text-white/60">{active.speaker}</p>}
+                {(active.speaker || active.channel) && <p className="text-[12px] text-white/60">{active.speaker || active.channel}</p>}
               </div>
               <button onClick={() => setActive(null)} className="rounded-full bg-white/10 px-4 py-1.5 text-[12px] text-white hover:bg-white/20">
-                Close
+                Tutup
               </button>
             </div>
           </div>
