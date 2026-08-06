@@ -2,18 +2,24 @@
   "id": "dua-distress",
   "slug": "dua-distress",
   "type": "dua",
-  "title": "Du'a for Distress and Anxiety",
-  "reference": "Sahih Al-Bukhari",
-  "category": "Distress",
+  "title": "Doa Ketika Sempit dan Cemas",
+  "reference": "Shahih Al-Bukhari",
+  "category": "Kecemasan",
   "arabic": "لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ",
   "latin": "La ilaha illallahul 'azhimul haliim, la ilaha illallahu Rabbul 'arsyil 'azhim",
-  "translation": "There is no god but Allah, the Magnificent, the Forbearing. There is no god but Allah, Lord of the Magnificent Throne.",
-  "lesson": "When anxiety rises, this du'a grounds you. It magnifies Allah and shrinks the problem.",
+  "translation": "Tidak ada tuhan selain Allah Yang Maha Agung lagi Maha Penyantun. Tidak ada tuhan selain Allah, Tuhan Arsy yang agung.",
+  "lesson": [
+    "Saat kecemasan naik, doa ini membumikanmu. Membesarkan Allah dan mengecilkan masalah."
+  ],
   "tags": [
-    "dua",
-    "anxiety",
-    "distress",
-    "calm"
+    "doa",
+    "cemas",
+    "tenang"
+  ],
+  "keywords": [
+    "cemas",
+    "sempit",
+    "tenang"
   ],
   "related": [
     "quran-al-baqarah-286"

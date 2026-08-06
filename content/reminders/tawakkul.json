@@ -2,17 +2,24 @@
   "id": "reminder-tawakkul",
   "slug": "reminder-tawakkul",
   "type": "reminder",
-  "title": "Tie your camel, then trust Allah",
+  "title": "Ikat untamu, lalu bertawakallah",
   "reference": "Sunan Tirmidhi No. 2517 - Hasan",
-  "category": "Tawakkul",
+  "category": "Tawakal",
   "arabic": "اعْقِلْهَا وَتَوَكَّلْ",
   "latin": "I'qilha wa tawakkal",
-  "translation": "Tie her [your camel] and put your trust in Allah.",
-  "lesson": "Tawakkul is not laziness. Do your best effort, then leave result to Allah. Effort is your responsibility, outcome is His.",
+  "translation": "Ikatlah untamu dan bertawakallah kepada Allah.",
+  "lesson": [
+    "Tawakal bukan malas. Lakukan usaha terbaikmu, lalu serahkan hasilnya kepada Allah. Usaha adalah tanggung jawabmu, hasil adalah urusan-Nya."
+  ],
   "tags": [
-    "tawakkul",
-    "effort",
-    "trust"
+    "tawakal",
+    "ikhtiar",
+    "tawakal"
+  ],
+  "keywords": [
+    "tawakal",
+    "ikhtiar",
+    "usaha"
   ],
   "related": [
     "quran-at-talaq-2-3",

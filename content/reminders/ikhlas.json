@@ -2,16 +2,22 @@
   "id": "reminder-ikhlas",
   "slug": "reminder-ikhlas",
   "type": "reminder",
-  "title": "Ikhlas: Hidden like you hide sins",
+  "title": "Ikhlas: Sembunyikan seperti kamu sembunyikan dosa",
   "reference": "Ibn Qayyim",
   "category": "Ikhlas",
-  "translation": "Hide your good deeds as carefully as you hide your sins. Ikhlas is the soul of deeds.",
-  "lesson": "Check intention before, during, and after deed. The nafs loves to seek praise. Fight it.",
+  "translation": "Sembunyikan amal baikmu sehati-hati kamu menyembunyikan dosa-dosamu. Ikhlas adalah ruhnya amal.",
+  "lesson": [
+    "Cek niat sebelum, saat, dan setelah beramal. Nafsu suka mencari pujian. Lawan."
+  ],
   "tags": [
     "ikhlas",
-    "intention",
-    "hidden",
-    "heart"
+    "niat",
+    "hati"
+  ],
+  "keywords": [
+    "ikhlas",
+    "niat",
+    "amal"
   ],
   "related": [
     "hadith-bukhari-1",

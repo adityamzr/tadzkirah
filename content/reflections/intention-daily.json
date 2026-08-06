@@ -2,17 +2,25 @@
   "id": "reflection-intention-daily",
   "slug": "reflection-intention-daily",
   "type": "reflection",
-  "title": "Morning intention audit",
-  "reference": "Daily Practice",
+  "title": "Audit niat pagi hari",
+  "reference": "Praktik Harian",
   "category": "Muhasabah",
-  "translation": "Every morning I write one sentence: 'Today I do this for Allah because...'. It changes work from chore to ibadah.",
-  "lesson": "Intention is not a one-time du'a, it's a continuous check. Before eating: nourishment to worship. Before work: provide halal rizq. Before rest: recharge to worship.",
+  "translation": "Setiap pagi aku menulis satu kalimat: 'Hari ini aku lakukan ini untuk Allah karena...'. Ini mengubah pekerjaan dari beban menjadi ibadah.",
+  "lesson": [
+    "Niat bukan sekadar doa satu kali, tapi pengecekan terus-menerus.",
+    "Sebelum makan: untuk energi beribadah. Sebelum bekerja: mencari rezeki halal. Sebelum istirahat: mengisi ulang untuk ibadah."
+  ],
+  "reflection": "Kunci: Niat mengubah rutinitas biasa jadi ibadah. Tulis niat, jangan hanya di hati.",
   "tags": [
-    "niyyah",
-    "intention",
-    "daily",
+    "niat",
+    "harian",
     "ikhlas",
-    "practice"
+    "praktik"
+  ],
+  "keywords": [
+    "niat",
+    "audit niat",
+    "ikhlas"
   ],
   "related": [
     "hadith-bukhari-1",

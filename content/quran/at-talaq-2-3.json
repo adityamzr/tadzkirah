@@ -2,18 +2,25 @@
   "id": "quran-at-talaq-2-3",
   "slug": "at-talaq-2-3",
   "type": "quran",
-  "title": "Whoever fears Allah, He will make for him a way out",
+  "title": "Barangsiapa bertakwa, Allah akan beri jalan keluar",
   "reference": "QS. At-Talaq: 2-3",
-  "category": "Tawakkul",
+  "category": "Tawakal",
   "arabic": "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ",
   "latin": "Wa man yattaqillaha yaj'al lahu makhrajan wa yarzuqhu min haytsu la yahtasib",
-  "translation": "And whoever fears Allah - He will make for him a way out and will provide for him from where he does not expect.",
-  "lesson": "Taqwa opens doors you didn't know existed. Rizq is not just money - it's solutions, peace, people.",
+  "translation": "Barangsiapa bertakwa kepada Allah niscaya Dia akan membukakan jalan keluar baginya dan Dia memberinya rezeki dari arah yang tidak disangka-sangka.",
+  "lesson": [
+    "Takwa membuka pintu yang tidak kamu ketahui. Rezeki bukan hanya uang - tapi solusi, ketenangan, orang-orang baik."
+  ],
   "tags": [
-    "taqwa",
-    "rizq",
-    "tawakkul",
-    "way-out"
+    "takwa",
+    "rezeki",
+    "tawakal",
+    "jalan-keluar"
+  ],
+  "keywords": [
+    "takwa",
+    "rezeki",
+    "jalan keluar"
   ],
   "related": [
     "quran-al-baqarah-286",

@@ -2,16 +2,22 @@
   "id": "reminder-istighfar",
   "slug": "reminder-istighfar",
   "type": "reminder",
-  "title": "Istighfar opens closed doors",
+  "title": "Istighfar membuka pintu yang tertutup",
   "reference": "QS. Nuh: 10-12",
   "category": "Istighfar",
-  "translation": "Increase istighfar, and you will see relief in risk, rain, children, gardens. It's not just for sins, it's for sustenance.",
-  "lesson": "Make istighfar 100 times daily. Keep tongue moist. The Prophet, sinless, did 70+ times daily.",
+  "translation": "Perbanyak istighfar, kamu akan lihat kelapangan dalam rezeki, hujan, anak, kebun. Istighfar bukan hanya untuk dosa, tapi untuk kelapangan hidup.",
+  "lesson": [
+    "Biasakan istighfar 100 kali tiap hari. Jaga lisan tetap basah. Nabi yang tanpa dosa saja beristighfar 70+ kali sehari."
+  ],
   "tags": [
     "istighfar",
-    "rizq",
-    "relief",
-    "dhikr"
+    "rezeki",
+    "kelapangan"
+  ],
+  "keywords": [
+    "istighfar",
+    "rezeki",
+    "ampunan"
   ],
   "related": [
     "dua-sayyidul-istighfar",

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "title": "Kumpulan Hadits Tematik",
+  "description": "Kumpulan hadits dengan tema sama, menggunakan defaults untuk mengurangi duplikasi",
+  "defaults": {
+    "type": "hadith",
+    "category": "Akhlak",
+    "source": "Shahih Muslim",
+    "tags": ["akhlak"],
+    "keywords": ["akhlak mulia"]
+  },
+  "items": [
+    {
+      "id": "hadith-muslim-contoh-1",
+      "title": "Judul hadits pertama",
+      "reference": "Shahih Muslim No. 1",
+      "translation": "Terjemahan hadits pertama"
+    },
+    {
+      "id": "hadith-muslim-contoh-2",
+      "title": "Judul hadits kedua",
+      "reference": "Shahih Muslim No. 2",
+      "translation": "Terjemahan hadits kedua",
+      "tags": ["akhlak", "tambahan-khusus-untuk-item-ini"]
+    }
+  ]
+}

@@ -2,18 +2,24 @@
   "id": "dua-parents",
   "slug": "dua-parents",
   "type": "dua",
-  "title": "Du'a for Parents",
+  "title": "Doa Untuk Kedua Orang Tua",
   "reference": "QS. Al-Isra: 24",
   "category": "Birrul Walidain",
   "arabic": "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
   "latin": "Rabbirhamhuma kama rabbayani shaghira",
-  "translation": "My Lord, have mercy upon them as they brought me up [when I was] small.",
-  "lesson": "Daily du'a for parents, whether alive or deceased. Mercy as they showed you mercy.",
+  "translation": "Wahai Tuhanku, sayangilah mereka berdua sebagaimana mereka menyayangiku di waktu kecil.",
+  "lesson": [
+    "Doa harian untuk orang tua, baik yang masih hidup maupun sudah wafat. Kasih sayang sebagaimana mereka menyayangi kita."
+  ],
   "tags": [
-    "dua",
-    "parents",
+    "doa",
+    "orang tua",
+    "birrul walidain"
+  ],
+  "keywords": [
+    "orang tua",
     "birrul walidain",
-    "mercy"
+    "doa orang tua"
   ],
   "related": [
     "reminder-birr"

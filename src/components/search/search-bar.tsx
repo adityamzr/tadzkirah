@@ -11,7 +11,7 @@ interface SearchBarProps {
   autoFocus?: boolean
 }
 
-export function SearchBar({ value, onChange, placeholder = "Search verses, hadith, du'a...", autoFocus = true }: SearchBarProps) {
+export function SearchBar({ value, onChange, placeholder = "Cari ayat, hadits, doa, atau topik...", autoFocus = true }: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [focused, setFocused] = useState(false)
 
@@ -48,7 +48,7 @@ export function SearchBar({ value, onChange, placeholder = "Search verses, hadit
         placeholder={placeholder}
         autoFocus={autoFocus}
         className="flex-1 h-[56px] bg-transparent px-0 text-[16px] md:text-[17px] placeholder:text-muted-foreground/60 focus:outline-none"
-        aria-label="Search Islamic knowledge base"
+        aria-label="Cari basis pengetahuan Islam"
       />
 
       <div className="flex items-center gap-1.5 pr-2">
@@ -56,7 +56,7 @@ export function SearchBar({ value, onChange, placeholder = "Search verses, hadit
           <button
             onClick={() => onChange("")}
             className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-muted/80 hover:text-foreground"
-            aria-label="Clear search"
+            aria-label="Hapus pencarian"
           >
             <X className="h-4 w-4" />
           </button>

@@ -2,23 +2,30 @@
   "id": "quran-al-insyirah-5-6",
   "slug": "al-insyirah-5-6",
   "type": "quran",
-  "title": "Indeed with hardship [will be] ease",
+  "title": "Sesungguhnya bersama kesulitan ada kemudahan",
   "reference": "QS. Al-Insyirah: 5-6",
-  "category": "Sabr",
+  "category": "Sabar",
+  "subcategory": "Harapan",
   "arabic": "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا، إِنَّ مَعَ الْعُسْرِ يُسْرًا",
   "latin": "Fa inna ma'al 'usri yusra, inna ma'al 'usri yusra",
-  "translation": "For indeed, with hardship [will be] ease. Indeed, with hardship [will be] ease.",
-  "lesson": "Ease is not after hardship, but with it. The repetition is not redundant - it's assurance. Look for ease already present in hardship.",
+  "translation": "Maka sesungguhnya bersama kesulitan ada kemudahan. Sesungguhnya bersama kesulitan ada kemudahan.",
+  "lesson": [
+    "Kemudahan tidak datang setelah kesulitan, tapi bersama dengannya. Pengulangan bukan redundansi - ini adalah jaminan. Carilah kemudahan yang sudah hadir di dalam kesulitan."
+  ],
   "tags": [
-    "sabr",
-    "ease",
-    "hope",
+    "sabar",
+    "kemudahan",
+    "harapan",
     "al-insyirah"
+  ],
+  "keywords": [
+    "kesulitan",
+    "kemudahan",
+    "harapan"
   ],
   "related": [
     "quran-al-baqarah-286",
     "reminder-sabr-daily"
   ],
-  "youtube": [],
   "createdAt": "2024-01-16"
 }

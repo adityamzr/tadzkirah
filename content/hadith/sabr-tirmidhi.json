@@ -2,19 +2,24 @@
   "id": "hadith-sabr-tirmidhi",
   "slug": "sabr-tirmidhi",
   "type": "hadith",
-  "title": "Amazing is the affair of the believer",
-  "reference": "Sahih Muslim No. 2999",
-  "category": "Sabr",
+  "title": "Sungguh menakjubkan urusan orang beriman",
+  "reference": "Shahih Muslim No. 2999",
+  "category": "Sabar",
   "arabic": "عَجَبًا لأَمْرِ الْمُؤْمِنِ، إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ",
   "latin": "Ajaban li amril mu'min, inna amrahu kullahu khair",
-  "translation": "Amazing is the affair of the believer, verily all of his affair is good. If something pleasing befalls him he is grateful and that is good for him. If something harmful befalls him he is patient and that is good for him.",
-  "lesson": "Win-win. Gratitude in ease, patience in hardship. Either way, the believer gains.",
+  "translation": "Sungguh menakjubkan urusan orang beriman, sesungguhnya semua urusannya adalah baik. Jika mendapat kesenangan ia bersyukur dan itu baik baginya. Jika mendapat kesulitan ia bersabar dan itu baik baginya.",
+  "lesson": [
+    "Menang-menang. Syukur saat lapang, sabar saat sempit. Dengan cara apapun, orang beriman tetap untung."
+  ],
   "tags": [
-    "sabr",
-    "shukr",
-    "believer",
-    "gratitude",
-    "patience"
+    "sabar",
+    "syukur",
+    "mukmin"
+  ],
+  "keywords": [
+    "sabar",
+    "syukur",
+    "mukmin"
   ],
   "related": [
     "quran-al-baqarah-286"

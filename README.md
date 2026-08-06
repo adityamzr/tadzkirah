@@ -1,151 +1,192 @@
-# Tadzkirah — Personal Islamic Knowledge Base
+# Tadzkirah — Pengingat Pribadi Al-Quran & Sunnah
 
-> A personal reminder through the Quran and Sunnah.
+> Pengingat pribadi melalui Al-Quran dan Sunnah.
 
-Modern, minimalist, reading-focused personal knowledge base inspired by **Google Search × Notion × Apple HIG**. Built for instant searching of Quran verses, authentic Hadith, Du'a, and personal reflections. No social features. No distractions.
+Basis pengetahuan pribadi yang modern, minimalis, fokus pada bacaan. Terinspirasi **Google Search × Notion × Apple HIG**. Dibuat untuk pencarian instan ayat Al-Quran, hadits shahih, doa autentik, dan catatan pribadi.
 
-**Color inspiration:** Masjidil Haram — Sky Blue `#69C4E8`, Kaaba Black `#171717`, Kiswah Gold `#C89B3C`.
+**Sekarang dengan Dashboard Admin + Neon Postgres — tidak lagi file JSON statis di Vercel.**
+
+**Inspirasi warna:** Masjidil Haram — Biru Langit `#69C4E8`, Hitam Ka'bah `#171717`, Emas Kiswah `#C89B3C`.
+**Bahasa:** Seluruh antarmuka Bahasa Indonesia. Arab hanya untuk teks Quran/Hadits/Doa asli.
 
 ---
 
-### ✨ Principles
+### ✨ Prinsip
 
-- Calm, peaceful, premium, modern, minimal
-- No traditional ornaments, no heavy gradients
-- Search-first. Everything else is secondary.
-- Readability over decoration
+- Tenang, damai, premium, modern, minimal
+- Pencarian sebagai fitur utama
+- Keterbacaan di atas dekorasi
 
-### 🎨 Design System
+### 🎨 Sistem Desain
 
-- **Primary:** Sky Blue `#69C4E8`
-- **Secondary:** Kaaba Black `#171717`
-- **Accent:** Kiswah Gold `#C89B3C` — subtle only
-- **Background Light:** `#FFFFFF`, **Dark:** `#0D1117`
-- **Cards:** Light White, Dark `#161B22`
-- **Typography:** UI `Inter` / `Geist`, Arabic `Amiri` / `Noto Naskh Arabic`
-- **Radius:** 16-20px, soft shadows, backdrop blur
+- Primary `#69C4E8`, Secondary `#171717`, Accent `#C89B3C`
+- BG Light `#FFFFFF`, Dark `#0D1117`, Card Dark `#161B22`
+- Typography: UI `Inter` / `Geist`, Arab `Amiri` / `Noto Naskh Arabic`
 
-### 📂 Architecture
+### 🗄️ Arsitektur Baru — Neon Database
 
 ```
-content/
-  quran/*.json
-  hadith/*.json
-  dua/*.json
-  reminders/*.json
-  reflections/*.json
+Sebelum: /content/*.json (statis, hilang di Vercel)
+Sekarang: Neon Postgres (persisten, dinamis)
 
-src/
-  app/
-    page.tsx              # Google-like landing + instant search
-    [type]/[slug]/page.tsx # Content detail
-  components/
-    ui/                   # button, input, badge, card
-    search/               # SearchBar, SearchResults, ResultCard
-    content/              # ArabicText, Translation, Lessons, Related, YouTube
-    layout/               # ThemeProvider, ThemeToggle
-  lib/
-    types.ts              # ContentEntry schema
-    content.ts            # FS loader (server-only)
-    search.ts             # Client search
+src/lib/db/
+  schema.ts        # tabel contents (id, slug, type, title, arabic, translation, lesson JSONB, tags JSONB, etc)
+  index.ts         # koneksi neon() + drizzle
+
+src/lib/
+  content.ts       # loader cerdas: jika DATABASE_URL ada → ambil dari Neon, jika tidak → fallback file JSON
+  admin-content.ts # CRUD yang auto pilih DB atau file+GitHub
+  admin-auth.ts    # auth password sederhana via cookie
+
+src/app/admin/
+  login/           # /admin/login
+  page.tsx         # dashboard list + stats + search
+  new/             # tambah konten
+  edit/[id]/       # edit konten
+
+src/app/api/admin/
+  auth/            # login/logout
+  content/         # CRUD API
+  stats/           # statistik
+
+scripts/
+  migrate-json-to-neon.ts  # migrasi JSON lama ke Neon
 ```
 
-### 🧩 JSON Schema
+**Loader mendukung dual mode:**
 
-Every entry is a human-readable JSON file:
+- **Mode Neon (production):** `DATABASE_URL` ter-set → semua konten dari Postgres, CRUD via dashboard langsung live
+- **Mode File (fallback dev):** jika tidak ada `DATABASE_URL` → baca dari `/content/*.json` seperti sebelumnya (plug-and-play tetap jalan)
 
-```json
-{
-  "id": "quran-al-baqarah-286",
-  "slug": "al-baqarah-286",
-  "type": "quran",
-  "title": "Allah does not burden a soul...",
-  "reference": "QS. Al-Baqarah: 286",
-  "category": "Sabr",
-  "arabic": "لَا يُكَلِّفُ...",
-  "latin": "La yukallifullah...",
-  "translation": "Allah does not burden...",
-  "lesson": "This verse is a personal anchor...",
-  "reflection": "When overwhelmed...",
-  "tags": ["sabr", "tawakkul"],
-  "related": ["quran-al-insyirah-5-6"],
-  "youtube": [{ "id": "...", "title": "...", "speaker": "...", "url": "..." }],
-  "createdAt": "2024-01-15"
-}
+### 🧩 Skema Konten (Postgres)
+
+```sql
+CREATE TABLE contents (
+  id TEXT PRIMARY KEY,
+  slug TEXT UNIQUE NOT NULL,
+  type TEXT NOT NULL, -- quran, hadith, dua, reminder, reflection
+  title TEXT NOT NULL,
+  reference TEXT,
+  category TEXT,
+  subcategory TEXT,
+  arabic TEXT,
+  latin TEXT,
+  translation TEXT,
+  lesson JSONB, -- string atau string[]
+  reflection TEXT,
+  tags JSONB,
+  keywords JSONB,
+  related JSONB, -- array ID
+  youtube JSONB, -- array {title, youtubeId, speaker, channel, duration}
+  source TEXT,
+  created_at TEXT,
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+)
 ```
 
-Optional fields are safely ignored. Ready for future migration to SQLite/PostgreSQL without frontend changes.
+Wajib: `id, type, title`. Sisanya opsional, aman jika hilang.
 
-### 🔍 Search Experience
+### 🔐 Dashboard Admin
 
-- Large centered search bar (like Google)
-- Instant client-side filtering across title, arabic, translation, lesson, tags, reference, category
-- Filters: All, Quran, Hadith, Du'a, Reminders, Reflections
-- Keyboard: `⌘K` or `/` to focus
-- URL sync `?q=sabr` for shareability
-- Lazy, fast, minimal JS
+**URL:** `/admin` → redirect ke `/admin/login` jika belum login
 
-### 📖 Content Detail
+**Fitur:**
 
-Each page supports:
+- Login password sederhana (`ADMIN_PASSWORD` di ENV, default `tadzkirah123`)
+- Dashboard: stats total, per tipe, pencarian, filter tipe
+- List table dengan aksi edit/hapus
+- Form lengkap:
+  - ID, slug (auto dari judul), tipe
+  - Judul, referensi, kategori, subkategori
+  - Arab RTL, latin, terjemahan
+  - Pelajaran array (tambah/hapus paragraf)
+  - Catatan pribadi
+  - Tags, keywords, related (chip input dengan Enter)
+  - Kajian YouTube array (title, youtubeId, speaker, channel, duration)
+- Simpan → langsung ke Neon DB, langsung live (tidak perlu commit GitHub lagi)
+- Hapus dengan konfirmasi
 
-- Title, reference, category
-- Arabic with Amiri/Noto Naskh (RTL)
-- Latin transliteration (optional)
-- Translation
-- Lesson & Personal Reflection blocks
-- Tags → clickable to search
-- Related references as cards
-- Optional YouTube discussions with modal player
+**Keamanan:** Middleware melindungi `/admin/*` dan `/api/admin/*` via cookie `httpOnly` + cek password. Logout hapus cookie.
 
-### 🌓 Theme
+### 🔍 Pencarian
 
-- Light / Dark / System preference
-- Persisted in localStorage
-- `ThemeProvider` with class strategy
+Tetap Bahasa Indonesia:
+- Placeholder: `Cari ayat, hadits, doa, atau topik...`
+- Filter: Semua, Quran, Hadits, Doa, Pengingat, Catatan
+- Index: title, reference, category, tags, keywords, translation, lesson (array digabung), reflection, source, arabic, latin
+- Empty: `Tidak ditemukan hasil yang sesuai.`
 
-### 🚀 Tech Stack
+### 📖 Halaman Detail
 
-- Next.js App Router + TypeScript
-- Tailwind CSS v4 + shadcn/ui patterns
-- Lucide Icons
-- JSON as single source of truth
-- No DB, no CMS, no Auth
+`/[type]/[slug]` — Terjemahan, Pelajaran & Tadabbur, Catatan Pribadi, Referensi Terkait, Kajian Terkait (modal YouTube)
 
-### 🔮 Future Extensibility (prepared, not implemented)
+### 🌓 Tema
 
-Bookmarks, Favorites, Collections, Advanced Filters, Full-text search (SQLite FTS), Reading History, Offline Support, PWA.
+Terang / Gelap / Sistem, `localStorage`
 
-Architecture already supports these via `Bookmark`, `Collection` types and flexible schema.
+### 🚀 Tech Stack Terbaru
 
-### 📦 Getting Started
+- Next.js 16 App Router + TypeScript
+- Tailwind v4 + shadcn/ui + Lucide
+- **Neon Postgres** + `@neondatabase/serverless` + `drizzle-orm`
+- Auth cookie sederhana + middleware
+- Dashboard CRUD full
+- Dual storage: Neon (prod) + JSON fallback (dev)
+
+### 📦 Setup Neon Database
+
+1. Buat project di https://neon.tech
+2. Copy `DATABASE_URL` (pooled)
+3. Set di `.env` lokal dan di Vercel ENV:
+
+```
+DATABASE_URL=postgresql://user:pass@ep-xxx.neon.tech/neondb?sslmode=require
+ADMIN_PASSWORD=tadzkirah123
+```
+
+4. Migrasi JSON lama ke Neon (sekali saja):
 
 ```bash
 npm install
-npm run dev
-# open http://localhost:3000
+DATABASE_URL=xxx npm run migrate:json
+# atau
+npm run migrate:json
 ```
 
-Build:
+Script akan buat tabel otomatis dan insert 35+ entri dari `/content`.
+
+5. Deploy ke Vercel dengan ENV yang sama — konten akan diambil dari Neon.
+
+### 📦 Menjalankan Lokal
 
 ```bash
-npm run build
-npm run start
+# Tanpa DB (mode file JSON seperti dulu)
+npm install
+npm run dev
+# buka http://localhost:3000
+# admin di http://localhost:3000/admin (password: tadzkirah123)
+
+# Dengan Neon
+echo 'DATABASE_URL=postgresql://...' > .env
+echo 'ADMIN_PASSWORD=tadzkirah123' >> .env
+npm run migrate:json # pertama kali saja
+npm run dev
 ```
 
-### ✅ Deliverables
+### 📚 Dokumentasi
 
-- Complete landing page (Logo, Name, Tagline, Search)
-- Responsive layout (mobile reading comfort)
-- Design system (colors, typography)
-- Light & Dark theme
-- Search interface + results
-- Content detail page
-- Related content + YouTube sections
-- Flexible JSON architecture
-- Component-based structure
-- Clean folder organization
+- `CONTENT_GUIDE.md` — panduan format JSON lama (tetap relevan untuk fallback)
+- `content/templates/*` — template JSON
+- `.env.example` — daftar ENV
+- `scripts/migrate-json-to-neon.ts` — migrasi
+
+### 🔮 Roadmap
+
+- Paginasi & full-text search di DB (tsvector)
+- Bookmark, Koleksi pribadi (sudah siap tipe `Bookmark`)
+- Upload thumbnail custom
+- Role user (read-only vs admin)
 
 ---
 
-Built for reflection, not distraction.
+Dibuat untuk refleksi, bukan distraksi.

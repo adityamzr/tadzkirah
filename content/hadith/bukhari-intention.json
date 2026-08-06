@@ -2,18 +2,26 @@
   "id": "hadith-bukhari-1",
   "slug": "bukhari-intention",
   "type": "hadith",
-  "title": "Actions are judged by intentions",
-  "reference": "Sahih Al-Bukhari No. 1, Sahih Muslim",
+  "title": "Sesungguhnya amal itu tergantung niatnya",
+  "reference": "Shahih Al-Bukhari No. 1, Shahih Muslim",
   "category": "Ikhlas",
   "arabic": "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
   "latin": "Innamal a'malu binniyyat, wa innama likulli imri'in ma nawa",
-  "translation": "Indeed, actions are judged by intentions, and every person will get the reward according to what they intended.",
-  "lesson": "Renew your intention constantly. The same action can be worship or habit depending on intention. Start everything with Bismillah and conscious niyyah.",
+  "translation": "Sesungguhnya amal itu tergantung niatnya, dan sesungguhnya setiap orang mendapatkan sesuai apa yang diniatkannya.",
+  "lesson": [
+    "Perbarui niat terus-menerus. Amalan yang sama bisa menjadi ibadah atau kebiasaan tergantung niat.",
+    "Mulailah segala sesuatu dengan Bismillah dan niat yang sadar."
+  ],
   "tags": [
-    "niyyah",
+    "niat",
     "ikhlas",
-    "intention",
+    "hadits",
     "bukhari"
+  ],
+  "keywords": [
+    "niat",
+    "ikhlas",
+    "amal"
   ],
   "related": [
     "reminder-ikhlas",
@@ -21,12 +29,13 @@
   ],
   "youtube": [
     {
-      "id": "yasir-intention",
-      "title": "Intentions Matter - Hadith 1 Nawawi",
+      "youtubeId": "xyz123",
+      "title": "Niat Itu Penting - Hadits 1 Arbain Nawawi",
       "speaker": "Yasir Qadhi",
-      "duration": "22:15",
-      "url": "https://www.youtube.com/watch?v=xyz123"
+      "channel": "Yasir Qadhi",
+      "duration": "22:15"
     }
   ],
+  "source": "Shahih Al-Bukhari",
   "createdAt": "2024-02-01"
 }
