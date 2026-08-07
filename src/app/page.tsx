@@ -2,14 +2,14 @@ import { getAllContent } from "@/lib/content"
 import { HomeSearch } from "@/components/search/home-search"
 import { Suspense } from "react"
 
-export default function HomePage() {
-  const allContent = getAllContent()
+export default async function HomePage() {
+  const allContent = await getAllContent()
 
   return (
     <div className="flex min-h-[calc(100vh-112px)] flex-col">
       {/* Hero Search Section */}
       <div className="mx-auto w-full max-w-6xl px-5 pb-16 pt-12 md:pt-20 lg:pt-28">
-        {/* Logo + Name + Tagline - centered Google-like */}
+        {/* Logo + Nama + Tagline */}
         <div className="flex flex-col items-center text-center">
           <div className="flex items-center gap-3">
             <div className="grid h-11 w-11 place-items-center rounded-full bg-[#171717] text-white shadow-sm dark:bg-white dark:text-[#171717] md:h-12 md:w-12">
@@ -19,15 +19,15 @@ export default function HomePage() {
           </div>
 
           <p className="mt-4 max-w-md text-balance text-[16px] leading-relaxed text-muted-foreground md:text-[17px]">
-            A personal reminder through the Quran and Sunnah.
+            Pengingat pribadi melalui Al-Quran dan Sunnah.
           </p>
 
           <p className="mt-2 text-[13px] text-muted-foreground/70">
-            {allContent.length} authentic references • Instant search • Personal lessons
+            {allContent.length} referensi autentik • Pencarian instan • Pelajaran pribadi
           </p>
         </div>
 
-        {/* Search */}
+        {/* Pencarian */}
         <div className="mt-10 md:mt-12">
           <Suspense fallback={
             <div className="mx-auto max-w-[640px] h-[56px] animate-pulse rounded-full bg-muted" />
@@ -37,18 +37,18 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Footer inspiration note - minimalist */}
+      {/* Info minimalis */}
       <div className="mx-auto w-full max-w-3xl px-5 pb-12 text-center">
         <div className="rounded-2xl border border-dashed border-border/80 bg-muted/30 p-5">
           <p className="text-[13px] leading-relaxed text-muted-foreground">
-            <span className="font-medium text-foreground">Not a social platform.</span> Not a Quran app. Not a CMS.
+            <span className="font-medium text-foreground">Bukan platform sosial.</span> Bukan aplikasi Al-Quran. Bukan komunitas.
             <br className="hidden md:block" />
-            This is a personal knowledge base — built for quiet reflection, daily reminders, and fast retrieval.
+            Ini adalah basis pengetahuan pribadi — dibuat untuk refleksi hening, pengingat harian, dan pencarian cepat.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-2 text-[11px]">
-            <span className="rounded-full bg-card border border-border px-2.5 py-1">Sky Blue #69C4E8</span>
-            <span className="rounded-full bg-card border border-border px-2.5 py-1">Kaaba Black #171717</span>
-            <span className="rounded-full bg-card border border-border px-2.5 py-1">Kiswah Gold #C89B3C</span>
+            <span className="rounded-full bg-card border border-border px-2.5 py-1">Biru Langit #69C4E8</span>
+            <span className="rounded-full bg-card border border-border px-2.5 py-1">Hitam Ka'bah #171717</span>
+            <span className="rounded-full bg-card border border-border px-2.5 py-1">Emas Kiswah #C89B3C</span>
           </div>
         </div>
       </div>

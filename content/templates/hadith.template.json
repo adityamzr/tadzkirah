@@ -1,0 +1,25 @@
+{
+  "id": "hadith-bukhari-contoh",
+  "slug": "bukhari-contoh",
+  "type": "hadith",
+  "title": "Judul hadits dalam Bahasa Indonesia",
+  "reference": "Shahih Al-Bukhari No. 1",
+  "category": "Akhlak",
+  "arabic": "نص الحديث بالعربية",
+  "latin": "Transliterasi latin",
+  "translation": "Terjemahan hadits dalam Bahasa Indonesia",
+  "lesson": ["Pelajaran yang bisa diambil dari hadits ini"],
+  "tags": ["akhlak", "hadits"],
+  "keywords": ["kata kunci hadits"],
+  "related": ["quran-al-asr-1-3"],
+  "youtube": [
+    {
+      "title": "Penjelasan hadits",
+      "speaker": "Ustadz Contoh",
+      "youtubeId": "VIDEO_ID",
+      "duration": "15:00"
+    }
+  ],
+  "source": "Shahih Al-Bukhari",
+  "createdAt": "2024-01-01"
+}

@@ -1,14 +1,13 @@
 import { Badge } from "@/components/ui/badge"
 import { ContentEntry } from "@/lib/types"
 import { BookOpen, FileText, Heart, Lightbulb, NotebookPen, Calendar } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 const map = {
   quran: { label: "Quran", icon: BookOpen },
-  hadith: { label: "Hadith", icon: FileText },
-  dua: { label: "Du'a", icon: Heart },
-  reminder: { label: "Reminder", icon: Lightbulb },
-  reflection: { label: "Reflection", icon: NotebookPen },
+  hadith: { label: "Hadits", icon: FileText },
+  dua: { label: "Doa", icon: Heart },
+  reminder: { label: "Pengingat", icon: Lightbulb },
+  reflection: { label: "Catatan Pribadi", icon: NotebookPen },
 }
 
 export function ContentHeader({ entry }: { entry: ContentEntry }) {
@@ -32,6 +31,11 @@ export function ContentHeader({ entry }: { entry: ContentEntry }) {
             {entry.subcategory}
           </Badge>
         )}
+        {entry.source && (
+          <Badge variant="outline" className="px-3 py-1 opacity-60">
+            {entry.source}
+          </Badge>
+        )}
       </div>
 
       <h1 className="text-balance text-[26px] font-semibold leading-tight tracking-tight md:text-[32px] lg:text-[36px]">
@@ -47,7 +51,7 @@ export function ContentHeader({ entry }: { entry: ContentEntry }) {
       {entry.createdAt && (
         <div className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
           <Calendar className="h-3.5 w-3.5" />
-          Last reflected {new Date(entry.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+          Diperbarui {new Date(entry.createdAt).toLocaleDateString("id-ID", { year: "numeric", month: "long", day: "numeric" })}
         </div>
       )}
     </div>

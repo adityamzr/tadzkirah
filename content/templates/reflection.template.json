@@ -1,0 +1,14 @@
+{
+  "id": "reflection-contoh",
+  "slug": "reflection-contoh",
+  "type": "reflection",
+  "title": "Judul catatan pribadi",
+  "category": "Tadabbur",
+  "translation": "Ringkasan atau kutipan utama",
+  "lesson": ["Apa yang dipelajari"],
+  "reflection": "Catatan pribadi yang lebih panjang dan jujur. Bagaimana ayat/hadits ini memengaruhi hidup sehari-hari, pengalaman pribadi, dll.",
+  "tags": ["catatan", "pribadi", "tadabbur"],
+  "keywords": ["refleksi", "pribadi"],
+  "related": ["quran-al-baqarah-286"],
+  "createdAt": "2024-01-01"
+}

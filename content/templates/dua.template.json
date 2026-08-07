@@ -1,0 +1,16 @@
+{
+  "id": "dua-contoh-harian",
+  "slug": "dua-contoh-harian",
+  "type": "dua",
+  "title": "Doa Contoh Harian",
+  "reference": "Sumber doa, contoh: Shahih Bukhari",
+  "category": "Harian",
+  "arabic": "اللَّهُمَّ...",
+  "latin": "Allahumma...",
+  "translation": "Ya Allah...",
+  "lesson": ["Kapan doa ini dibaca dan keutamaannya"],
+  "tags": ["doa", "harian", "dzikir"],
+  "keywords": ["doa harian"],
+  "related": ["quran-al-baqarah-152"],
+  "createdAt": "2024-01-01"
+}

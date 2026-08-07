@@ -1,0 +1,14 @@
+{
+  "id": "reminder-contoh",
+  "slug": "reminder-contoh",
+  "type": "reminder",
+  "title": "Judul pengingat dalam Bahasa Indonesia",
+  "category": "Pengingat Umum",
+  "translation": "Isi pengingat, bisa diambil dari Al-Quran, Hadits, atau pengalaman pribadi",
+  "lesson": ["Pelajaran praktis yang bisa diterapkan"],
+  "reflection": "Refleksi pribadi jika ada",
+  "tags": ["pengingat", "hikmah"],
+  "keywords": ["kata kunci pengingat"],
+  "related": [],
+  "createdAt": "2024-01-01"
+}

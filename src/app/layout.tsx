@@ -31,14 +31,14 @@ const notoNaskh = Noto_Naskh_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "Tadzkirah — Personal Islamic Knowledge Base",
+  title: "Tadzkirah — Pengingat Pribadi Al-Quran & Sunnah",
   description:
-    "A personal reminder through the Quran and Sunnah. Search Quran verses, authentic Hadith, Du'a, and personal lessons.",
-  keywords: ["quran", "hadith", "dua", "islamic", "tadzkirah", "reminder"],
+    "B basis pengetahuan pribadi untuk ayat Al-Quran, hadits shahih, doa autentik, dan pelajaran hidup. Pencarian instan, fokus pada refleksi.",
+  keywords: ["quran", "hadits", "hadith", "doa", "islam", "tadzkirah", "pengingat", "sunnah"],
   authors: [{ name: "Tadzkirah" }],
   openGraph: {
     title: "Tadzkirah",
-    description: "A personal reminder through the Quran and Sunnah.",
+    description: "Pengingat pribadi melalui Al-Quran dan Sunnah.",
     type: "website",
   },
 };
@@ -50,16 +50,16 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="id"
       className={`${geistSans.variable} ${inter.variable} ${amiri.variable} ${notoNaskh.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-inter">
         <ThemeProvider>
-          {/* Minimal Header - only theme toggle */}
+          {/* Header minimal */}
           <header className="sticky top-0 z-30 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
             <div className="mx-auto flex h-[56px] max-w-6xl items-center justify-between px-5 md:px-8">
-              <Link href="/" className="flex items-center gap-2.5">
+              <Link href="/" className="flex items-center gap-2.5" aria-label="Beranda Tadzkirah">
                 <div className="grid h-8 w-8 place-items-center rounded-full bg-[#171717] text-white dark:bg-white dark:text-[#171717]">
                   <span className="font-amiri text-[18px] font-bold leading-none">ت</span>
                 </div>
@@ -67,7 +67,7 @@ export default function RootLayout({
               </Link>
               <div className="flex items-center gap-3">
                 <nav className="hidden items-center gap-1 text-[13px] text-muted-foreground md:flex">
-                  <span className="rounded-full bg-muted px-3 py-1">Personal knowledge base</span>
+                  <span className="rounded-full bg-muted px-3 py-1">Basis pengetahuan pribadi</span>
                 </nav>
                 <ThemeToggle />
               </div>
@@ -79,10 +79,10 @@ export default function RootLayout({
           <footer className="mt-auto border-t border-border/40 py-8">
             <div className="mx-auto max-w-6xl px-5 text-center md:px-8">
               <p className="text-[12px] text-muted-foreground">
-                Tadzkirah — A personal reminder through the Quran and Sunnah. Built for reflection, not distraction.
+                Tadzkirah — Pengingat pribadi melalui Al-Quran dan Sunnah. Dibuat untuk refleksi, bukan distraksi.
               </p>
               <p className="mt-2 text-[11px] text-muted-foreground/60">
-                Data stored locally in JSON • No tracking • Fast searching
+                Data disimpan lokal dalam JSON • Tanpa pelacakan • Pencarian cepat • Tidak ada CMS
               </p>
             </div>
           </footer>

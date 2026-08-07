@@ -1,0 +1,16 @@
+[
+  {
+    "id": "reminder-array-contoh-1",
+    "type": "reminder",
+    "title": "Pengingat pertama dalam array",
+    "category": "Motivasi",
+    "translation": "Isi pengingat pertama"
+  },
+  {
+    "id": "reminder-array-contoh-2",
+    "type": "reminder",
+    "title": "Pengingat kedua dalam array",
+    "category": "Motivasi",
+    "translation": "Isi pengingat kedua"
+  }
+]

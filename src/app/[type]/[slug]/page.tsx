@@ -14,7 +14,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const all = getAllContent()
+  const all = await getAllContent()
   return all.map((e) => ({
     type: e.type,
     slug: e.slug,
@@ -23,23 +23,24 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
-  const entry = getContentBySlug(slug)
+  const entry = await getContentBySlug(slug)
   if (!entry) return {}
+  const desc = entry.translation || (Array.isArray(entry.lesson) ? entry.lesson[0] : entry.lesson) || entry.title
   return {
     title: `${entry.title} — Tadzkirah`,
-    description: entry.translation || entry.lesson || entry.title,
+    description: typeof desc === 'string' ? desc : entry.title,
   }
 }
 
 export default async function ContentPage({ params }: Props) {
   const { type, slug } = await params
-  const entry = getContentBySlug(slug)
+  const entry = await getContentBySlug(slug)
 
   if (!entry || entry.type !== type) {
     notFound()
   }
 
-  const related = getRelatedContent(entry)
+  const related = await getRelatedContent(entry)
 
   return (
     <div className="mx-auto w-full max-w-3xl px-5 py-8 md:py-12">
@@ -48,7 +49,7 @@ export default async function ContentPage({ params }: Props) {
         className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-[13px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
-        Back to search
+        Kembali ke pencarian
       </Link>
 
       <article className="space-y-8">
@@ -72,11 +73,11 @@ export default async function ContentPage({ params }: Props) {
           <YouTubeSection videos={entry.youtube} />
         </div>
 
-        {/* Bottom navigation */}
+        {/* Navigasi bawah */}
         <div className="flex items-center justify-between border-t border-border/60 pt-8 text-[13px]">
-          <span className="text-muted-foreground">Personal knowledge base</span>
+          <span className="text-muted-foreground">Basis pengetahuan pribadi</span>
           <Link href="/" className="font-medium text-[#69C4E8] hover:underline">
-            Search more →
+            Cari lagi →
           </Link>
         </div>
       </article>
