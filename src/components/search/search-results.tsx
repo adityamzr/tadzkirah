@@ -31,9 +31,9 @@ export function SearchResults({ entries, query }: { entries: ContentEntry[]; que
   }, [entries])
 
   return (
-    <div className="w-full">
-      {/* Filter */}
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-2 md:mt-8">
+    <div className="flex w-full flex-col">
+      {/* Filter - compact, sticky top */}
+      <div className="sticky top-0 z-10 -mx-1 flex flex-wrap items-center justify-center gap-1.5 bg-background/80 px-1 py-2 backdrop-blur-xl md:gap-2">
         {filters.map((f) => {
           const active = activeFilter === f.id
           return (
@@ -41,15 +41,15 @@ export function SearchResults({ entries, query }: { entries: ContentEntry[]; que
               key={f.id}
               onClick={() => setActiveFilter(f.id)}
               className={cn(
-                "inline-flex h-8 items-center gap-1.5 rounded-full border px-3.5 text-[13px] font-medium transition-all",
+                "inline-flex h-7 items-center gap-1 rounded-full border px-3 text-[12px] font-medium transition-all duration-200 active:scale-95 md:h-8 md:px-3.5 md:text-[13px]",
                 active
-                  ? "border-[#171717] bg-[#171717] text-white dark:border-white dark:bg-white dark:text-[#171717] shadow-sm"
-                  : "border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground"
+                  ? "border-[#171717] bg-[#171717] text-white shadow-sm dark:border-white dark:bg-white dark:text-[#171717]"
+                  : "border-border bg-card text-muted-foreground shadow-sm hover:bg-muted hover:text-foreground hover:shadow"
               )}
               aria-label={`Filter ${f.label}`}
             >
               {f.label}
-              <span className={cn("text-[11px]", active ? "text-white/60 dark:text-black/50" : "text-muted-foreground/60")}>
+              <span className={cn("text-[10px] md:text-[11px]", active ? "text-white/60 dark:text-black/50" : "text-muted-foreground/60")}>
                 {f.id === "all" ? entries.length : counts[f.id] || 0}
               </span>
             </button>
@@ -57,9 +57,9 @@ export function SearchResults({ entries, query }: { entries: ContentEntry[]; que
         })}
       </div>
 
-      {/* Info hasil */}
-      <div className="mx-auto mt-8 max-w-3xl">
-        <p className="text-center text-[13px] text-muted-foreground">
+      {/* Info hasil - compact */}
+      <div className="mx-auto mt-3 w-full max-w-3xl md:mt-4">
+        <p className="text-center text-[11px] text-muted-foreground md:text-[12px]">
           {query ? (
             <>
               <span className="font-medium text-foreground">{filtered.length}</span> hasil untuk{" "}
@@ -67,29 +67,33 @@ export function SearchResults({ entries, query }: { entries: ContentEntry[]; que
               {activeFilter !== "all" && <> di {filters.find(f=>f.id===activeFilter)?.label}</>}
             </>
           ) : (
-            <>Menampilkan {filtered.length} entri terbaru • Basis pengetahuan pribadi</>
+            <>Menampilkan {filtered.length} entri • Basis pengetahuan pribadi • Mulai dari 0</>
           )}
         </p>
       </div>
 
-      {/* Grid */}
-      <div className="mx-auto mt-6 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
+      {/* Grid - responsive, smooth */}
+      <div className="mx-auto mt-3 grid w-full max-w-5xl grid-cols-1 gap-3 pb-4 md:mt-4 md:grid-cols-2 md:gap-4">
         {filtered.map((entry) => (
-          <SearchResultCard key={entry.id} entry={entry} query={query} />
+          <div key={entry.id} className="animate-in fade-in duration-300">
+            <SearchResultCard entry={entry} query={query} />
+          </div>
         ))}
       </div>
 
       {filtered.length === 0 && (
-        <div className="mx-auto mt-16 max-w-md text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+        <div className="mx-auto mt-8 flex max-w-md flex-col items-center justify-center rounded-2xl border border-dashed border-border/60 bg-muted/20 p-8 text-center md:mt-12">
+          <div className="grid h-10 w-10 place-items-center rounded-full bg-muted">
             <span className="text-lg">∅</span>
           </div>
-          <h3 className="mt-4 text-[15px] font-medium">Tidak ditemukan hasil yang sesuai.</h3>
-          <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
-            Coba kata kunci lain, periksa transliterasi, atau jelajahi berdasarkan kategori. Pencarian untuk &quot;{query}&quot; tidak cocok dengan entri apapun.
+          <h3 className="mt-3 text-[14px] font-medium">Tidak ditemukan hasil yang sesuai.</h3>
+          <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
+            {entries.length === 0
+              ? "Database masih kosong. Mulai tambahkan konten dari dashboard admin."
+              : `Pencarian untuk "${query}" tidak cocok. Coba kata kunci lain.`}
           </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-1.5">
-            {["sabar", "tawakal", "syukur", "quran", "doa"].map((tag) => (
+          <div className="mt-3 flex flex-wrap justify-center gap-1.5">
+            {["sabar", "syukur", "quran", "doa"].map((tag) => (
               <span key={tag} className="rounded-full bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
                 #{tag}
               </span>

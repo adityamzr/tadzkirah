@@ -32,11 +32,11 @@ export function SearchBar({ value, onChange, placeholder = "Cari ayat, hadits, d
 
   return (
     <div className={cn(
-      "group relative flex items-center w-full max-w-[640px] mx-auto rounded-full border bg-card shadow-sm transition-all duration-300",
+      "group relative flex items-center w-full max-w-[640px] mx-auto rounded-full border bg-card shadow-sm transition-all duration-300 ease-out",
       focused ? "border-[#69C4E8]/40 shadow-[0_0_0_4px_rgba(105,196,232,0.12)] ring-0" : "border-border hover:border-border/80 hover:shadow-md"
     )}>
-      <div className="pl-5 pr-3 flex items-center text-muted-foreground">
-        <Search className="h-[18px] w-[18px]" strokeWidth={1.8} />
+      <div className="flex items-center pl-4 pr-2 text-muted-foreground md:pl-5 md:pr-3">
+        <Search className="h-[16px] w-[16px] md:h-[18px] md:w-[18px]" strokeWidth={1.8} />
       </div>
 
       <input
@@ -47,25 +47,23 @@ export function SearchBar({ value, onChange, placeholder = "Cari ayat, hadits, d
         onBlur={() => setFocused(false)}
         placeholder={placeholder}
         autoFocus={autoFocus}
-        className="flex-1 h-[56px] bg-transparent px-0 text-[16px] md:text-[17px] placeholder:text-muted-foreground/60 focus:outline-none"
+        className="flex-1 h-[48px] bg-transparent px-0 text-[15px] placeholder:text-muted-foreground/60 focus:outline-none md:h-[52px] md:text-[16px]"
         aria-label="Cari basis pengetahuan Islam"
       />
 
-      <div className="flex items-center gap-1.5 pr-2">
+      <div className="flex items-center gap-1 pr-1.5 md:pr-2">
         {value ? (
           <button
             onClick={() => onChange("")}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-muted/80 hover:text-foreground"
+            className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-muted text-muted-foreground transition-all hover:bg-muted/80 hover:text-foreground active:scale-95 md:h-8 md:w-8"
             aria-label="Hapus pencarian"
           >
-            <X className="h-4 w-4" />
+            <X className="h-3.5 w-3.5 md:h-4 md:w-4" />
           </button>
         ) : (
-          <>
-            <div className="hidden md:flex items-center gap-1 rounded-full border border-border bg-muted/50 px-2.5 py-1 text-[11px] text-muted-foreground">
-              <Command className="h-3 w-3" /> K
-            </div>
-          </>
+          <div className="hidden items-center gap-1 rounded-full border border-border bg-muted/50 px-2 py-1 text-[11px] text-muted-foreground md:flex md:px-2.5">
+            <Command className="h-3 w-3" /> K
+          </div>
         )}
       </div>
     </div>

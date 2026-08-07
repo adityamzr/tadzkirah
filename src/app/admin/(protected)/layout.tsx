@@ -27,12 +27,13 @@ export default async function ProtectedAdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-[#F9FAFB] dark:bg-[#0D1117]">
+    <div className="flex h-screen w-full overflow-hidden bg-[#F9FAFB] dark:bg-[#0D1117] antialiased">
       <AdminSidebar stats={stats} />
-      <div className="flex min-h-screen flex-1 flex-col">
-        {/* The mobile header is inside sidebar component */}
-        <main className="flex-1">
-          {children}
+      <div className="flex h-screen min-w-0 flex-1 flex-col overflow-hidden">
+        <main className="flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-[#F9FAFB] dark:bg-[#0D1117]">
+          <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
+            {children}
+          </div>
         </main>
       </div>
     </div>
