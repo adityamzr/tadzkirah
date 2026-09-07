@@ -1,43 +1,43 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Lock, Eye, EyeOff } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Lock, Eye, EyeOff } from "lucide-react";
 
 export default function AdminLoginPage() {
-  const [password, setPassword] = useState("")
-  const [show, setShow] = useState(false)
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    setLoading(true)
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
     try {
       const res = await fetch("/api/admin/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
-      })
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Password salah")
-        return
+        setError(data.error || "Password salah");
+        return;
       }
 
-      router.push("/admin")
-      router.refresh()
+      router.push("/admin");
+      router.refresh();
     } catch (err: any) {
-      setError("Gagal login: " + (err.message || ""))
+      setError("Gagal login: " + (err.message || ""));
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#F9FAFB] p-5 dark:bg-[#0D1117]">
@@ -46,7 +46,9 @@ export default function AdminLoginPage() {
           <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[#171717] text-white dark:bg-white dark:text-black">
             <Lock className="h-5 w-5" />
           </div>
-          <h1 className="mt-4 text-[22px] font-semibold tracking-tight">Masuk Admin</h1>
+          <h1 className="mt-4 text-[22px] font-semibold tracking-tight">
+            Masuk Admin
+          </h1>
           <p className="mt-1.5 text-[13px] text-muted-foreground">
             Tadzkirah — Dashboard pengelolaan konten
           </p>
@@ -70,12 +72,16 @@ export default function AdminLoginPage() {
                 onClick={() => setShow(!show)}
                 className="absolute right-3 top-1/2 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full text-muted-foreground hover:bg-muted"
               >
-                {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                {show ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
               </button>
             </div>
-            <p className="text-[11px] text-muted-foreground">
+            {/* <p className="text-[11px] text-muted-foreground">
               Default: <code>tadzkirah123</code> — ganti di ENV <code>ADMIN_PASSWORD</code> di Vercel
-            </p>
+            </p> */}
           </div>
 
           {error && (
@@ -93,11 +99,15 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 rounded-xl bg-muted/50 p-3 text-[11px] leading-relaxed text-muted-foreground">
+        {/* <div className="mt-8 rounded-xl bg-muted/50 p-3 text-[11px] leading-relaxed text-muted-foreground">
           <p className="font-medium text-foreground">Mode Neon Database:</p>
-          <p>Jika <code>DATABASE_URL</code> ter-set di Vercel, semua perubahan disimpan langsung ke Neon Postgres dan langsung live. Tidak perlu GitHub lagi.</p>
-        </div>
+          <p>
+            Jika <code>DATABASE_URL</code> ter-set di Vercel, semua perubahan
+            disimpan langsung ke Neon Postgres dan langsung live. Tidak perlu
+            GitHub lagi.
+          </p>
+        </div> */}
       </div>
     </div>
-  )
+  );
 }
