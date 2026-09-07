@@ -31,15 +31,9 @@ export function SearchResults({ entries, query }: { entries: ContentEntry[]; que
   }, [entries])
 
   return (
-<<<<<<< HEAD
-    <div className="w-full">
-      {/* Filter */}
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-2 md:mt-8">
-=======
     <div className="flex w-full flex-col">
       {/* Filter - compact, sticky top */}
       <div className="sticky top-0 z-10 -mx-1 flex flex-wrap items-center justify-center gap-1.5 bg-background/80 px-1 py-2 backdrop-blur-xl md:gap-2">
->>>>>>> 1fbb70d14fcb6c60d6a6b6cb0c71c59065a7c35a
         {filters.map((f) => {
           const active = activeFilter === f.id
           return (
@@ -63,15 +57,9 @@ export function SearchResults({ entries, query }: { entries: ContentEntry[]; que
         })}
       </div>
 
-<<<<<<< HEAD
-      {/* Info hasil */}
-      <div className="mx-auto mt-8 max-w-3xl">
-        <p className="text-center text-[13px] text-muted-foreground">
-=======
       {/* Info hasil - compact */}
       <div className="mx-auto mt-3 w-full max-w-3xl md:mt-4">
         <p className="text-center text-[11px] text-muted-foreground md:text-[12px]">
->>>>>>> 1fbb70d14fcb6c60d6a6b6cb0c71c59065a7c35a
           {query ? (
             <>
               <span className="font-medium text-foreground">{filtered.length}</span> hasil untuk{" "}
@@ -79,11 +67,7 @@ export function SearchResults({ entries, query }: { entries: ContentEntry[]; que
               {activeFilter !== "all" && <> di {filters.find(f=>f.id===activeFilter)?.label}</>}
             </>
           ) : (
-<<<<<<< HEAD
-            <>Menampilkan {filtered.length} entri terbaru • Basis pengetahuan pribadi</>
-=======
             <>Menampilkan {filtered.length} entri • Basis pengetahuan pribadi • Mulai dari 0</>
->>>>>>> 1fbb70d14fcb6c60d6a6b6cb0c71c59065a7c35a
           )}
         </p>
       </div>
@@ -102,14 +86,6 @@ export function SearchResults({ entries, query }: { entries: ContentEntry[]; que
           <div className="grid h-10 w-10 place-items-center rounded-full bg-muted">
             <span className="text-lg">∅</span>
           </div>
-<<<<<<< HEAD
-          <h3 className="mt-4 text-[15px] font-medium">Tidak ditemukan hasil yang sesuai.</h3>
-          <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
-            Coba kata kunci lain, periksa transliterasi, atau jelajahi berdasarkan kategori. Pencarian untuk &quot;{query}&quot; tidak cocok dengan entri apapun.
-          </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-1.5">
-            {["sabar", "tawakal", "syukur", "quran", "doa"].map((tag) => (
-=======
           <h3 className="mt-3 text-[14px] font-medium">Tidak ditemukan hasil yang sesuai.</h3>
           <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
             {entries.length === 0
@@ -118,7 +94,6 @@ export function SearchResults({ entries, query }: { entries: ContentEntry[]; que
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-1.5">
             {["sabar", "syukur", "quran", "doa"].map((tag) => (
->>>>>>> 1fbb70d14fcb6c60d6a6b6cb0c71c59065a7c35a
               <span key={tag} className="rounded-full bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
                 #{tag}
               </span>

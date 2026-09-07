@@ -24,11 +24,7 @@ export function SearchResultCard({ entry }: { entry: ContentEntry; query?: strin
   return (
     <Link
       href={`/${entry.type}/${entry.slug}`}
-<<<<<<< HEAD
-      className="group block rounded-2xl border border-border bg-card p-5 text-left transition-all duration-200 hover:border-[#69C4E8]/30 hover:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.15)] hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#69C4E8]/30"
-=======
       className="group flex h-full flex-col rounded-2xl border border-border bg-card p-4 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#69C4E8]/30 hover:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#69C4E8]/30 md:p-5"
->>>>>>> 1fbb70d14fcb6c60d6a6b6cb0c71c59065a7c35a
       aria-label={`Buka ${config.labelId}: ${entry.title}`}
     >
       <div className="flex items-start justify-between gap-2.5">
@@ -59,11 +55,7 @@ export function SearchResultCard({ entry }: { entry: ContentEntry; query?: strin
       )}
 
       {displayText && (
-<<<<<<< HEAD
-        <p className="mt-3 line-clamp-2 text-[14px] leading-relaxed text-muted-foreground">
-=======
         <p className="mt-2.5 line-clamp-2 flex-1 text-[13px] leading-relaxed text-muted-foreground md:text-[13px]">
->>>>>>> 1fbb70d14fcb6c60d6a6b6cb0c71c59065a7c35a
           {typeof displayText === 'string' ? displayText : ''}
         </p>
       )}

@@ -47,11 +47,7 @@ export function SearchBar({ value, onChange, placeholder = "Cari ayat, hadits, d
         onBlur={() => setFocused(false)}
         placeholder={placeholder}
         autoFocus={autoFocus}
-<<<<<<< HEAD
-        className="flex-1 h-[56px] bg-transparent px-0 text-[16px] md:text-[17px] placeholder:text-muted-foreground/60 focus:outline-none"
-=======
         className="flex-1 h-[48px] bg-transparent px-0 text-[15px] placeholder:text-muted-foreground/60 focus:outline-none md:h-[52px] md:text-[16px]"
->>>>>>> 1fbb70d14fcb6c60d6a6b6cb0c71c59065a7c35a
         aria-label="Cari basis pengetahuan Islam"
       />
 
@@ -59,11 +55,7 @@ export function SearchBar({ value, onChange, placeholder = "Cari ayat, hadits, d
         {value ? (
           <button
             onClick={() => onChange("")}
-<<<<<<< HEAD
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-muted/80 hover:text-foreground"
-=======
             className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-muted text-muted-foreground transition-all hover:bg-muted/80 hover:text-foreground active:scale-95 md:h-8 md:w-8"
->>>>>>> 1fbb70d14fcb6c60d6a6b6cb0c71c59065a7c35a
             aria-label="Hapus pencarian"
           >
             <X className="h-3.5 w-3.5 md:h-4 md:w-4" />
