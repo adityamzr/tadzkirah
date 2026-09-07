@@ -1,14 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import { ContentEntry } from "@/lib/types"
 import { useRouter } from "next/navigation"
-import { Save, X, Plus, Trash2, ArrowLeft } from "lucide-react"
+import { Save, X, Plus, Trash2, ArrowLeft, Lock, Link2, Search, Check } from "lucide-react"
 import Link from "next/link"
 
 interface Props {
   initialData?: ContentEntry
   isEdit?: boolean
+  existingContents?: ContentEntry[]
 }
 
 const typeOptions = [
@@ -29,7 +30,13 @@ function slugify(str: string): string {
     .replace(/^-+|-+$/g, '')
 }
 
-export default function ContentForm({ initialData, isEdit = false }: Props) {
+function generateId(type: string, slug: string): string {
+  const base = `${type}-${slug}`.slice(0, 60) // limit length
+  const suffix = Math.random().toString(36).substring(2, 6) // 4 char random for uniqueness
+  return `${base}-${suffix}`
+}
+
+export default function ContentForm({ initialData, isEdit = false, existingContents = [] }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -63,7 +70,6 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
 
   const [tagInput, setTagInput] = useState("")
   const [keywordInput, setKeywordInput] = useState("")
-  const [relatedInput, setRelatedInput] = useState("")
   const [youtubeList, setYoutubeList] = useState<any[]>(() => {
     if (!initialData?.youtube) return []
     return initialData.youtube.map((yt: any) => ({
@@ -76,25 +82,64 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
     }))
   })
 
-  useEffect(() => {
-    if (!isEdit && form.title && !form.slug) {
-      setForm(prev => ({ ...prev, slug: slugify(form.title || "") }))
-    }
-  }, [form.title, isEdit])
+  // Related suggestion states
+  const [relatedSearch, setRelatedSearch] = useState("")
+  const [showRelatedDropdown, setShowRelatedDropdown] = useState(false)
+  const relatedRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!isEdit && form.slug && !form.id) {
-      const prefix = form.type ? `${form.type}-` : ""
-      setForm(prev => ({ ...prev, id: `${prefix}${form.slug}` }))
+    const handleClickOutside = (e: MouseEvent) => {
+      if (relatedRef.current && !relatedRef.current.contains(e.target as Node)) {
+        setShowRelatedDropdown(false)
+      }
     }
-  }, [form.slug, form.type, isEdit])
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  // Auto generate slug and ID from title - ID & Slug tidak bisa diisi manual
+  useEffect(() => {
+    if (!form.title) return
+
+    const newSlug = slugify(form.title)
+
+    if (!isEdit) {
+      // Untuk tambah baru: slug auto dari judul, ID auto unik
+      setForm(prev => {
+        // Hanya generate ID jika belum ada atau jika title berubah signifikan
+        // Kita generate ID baru setiap title berubah untuk new mode
+        const shouldRegenerateId = !prev.id || prev.title !== form.title || !prev.id.startsWith(`${prev.type}-`)
+        return {
+          ...prev,
+          slug: newSlug,
+          id: shouldRegenerateId ? generateId(prev.type || "quran", newSlug) : prev.id
+        }
+      })
+    } else {
+      // Untuk edit: slug auto update dari judul, ID tetap (tidak berubah)
+      setForm(prev => ({
+        ...prev,
+        slug: newSlug
+      }))
+    }
+  }, [form.title, form.type, isEdit])
+
+  // Ketika tipe berubah di mode tambah, regenerate ID
+  useEffect(() => {
+    if (!isEdit && form.slug) {
+      setForm(prev => ({
+        ...prev,
+        id: generateId(form.type || "quran", form.slug || "")
+      }))
+    }
+  }, [form.type])
 
   const setField = (key: keyof ContentEntry, value: any) => {
     setForm(prev => ({ ...prev, [key]: value }))
   }
 
-  const addTag = (type: 'tags' | 'keywords' | 'related', value: string, setter: any) => {
-    const trimmed = value.trim()
+  const addTag = (type: 'tags' | 'keywords', value: string, setter: any) => {
+    const trimmed = value.trim().toLowerCase()
     if (!trimmed) return
     const current = (form[type] as string[]) || []
     if (current.includes(trimmed)) return
@@ -106,6 +151,40 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
     const current = [...((form[type] as string[]) || [])]
     current.splice(index, 1)
     setField(type, current)
+  }
+
+  // Related suggestion logic
+  const relatedSuggestions = useMemo(() => {
+    if (!relatedSearch.trim()) {
+      // Tampilkan beberapa konten terbaru / relevan jika tidak ada query
+      return existingContents
+        .filter(c => c.id !== form.id && !(form.related || []).includes(c.id))
+        .slice(0, 6)
+    }
+
+    const q = relatedSearch.toLowerCase()
+    return existingContents
+      .filter(c => {
+        if (c.id === form.id) return false
+        if ((form.related || []).includes(c.id)) return false
+        const haystack = [
+          c.title,
+          c.id,
+          c.category,
+          c.reference,
+          ...(c.tags || [])
+        ].join(' ').toLowerCase()
+        return haystack.includes(q)
+      })
+      .slice(0, 8)
+  }, [relatedSearch, existingContents, form.id, form.related])
+
+  const addRelated = (id: string) => {
+    const current = (form.related as string[]) || []
+    if (current.includes(id)) return
+    setField('related', [...current, id])
+    setRelatedSearch("")
+    setShowRelatedDropdown(false)
   }
 
   const addYoutube = () => {
@@ -148,7 +227,7 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
 
       const payload: any = {
         id: form.id?.trim(),
-        slug: form.slug?.trim() || slugify(form.id || form.title || ""),
+        slug: form.slug?.trim(),
         type: form.type,
         title: form.title?.trim(),
         reference: form.reference?.trim() || undefined,
@@ -167,8 +246,8 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
         createdAt: form.createdAt || undefined,
       }
 
-      if (!payload.id || !payload.type || !payload.title) {
-        throw new Error("ID, tipe, dan judul wajib diisi")
+      if (!payload.id || !payload.type || !payload.title || !payload.slug) {
+        throw new Error("Judul wajib diisi — ID dan slug akan otomatis terbuat")
       }
 
       const method = isEdit ? "PUT" : "POST"
@@ -194,14 +273,14 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
 
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden">
-      {/* Header - sticky, shrink-0, 100vh layout no scroll */}
-      <div className="shrink-0 border-b border-border/40 bg-card/80 px-6 py-4 backdrop-blur-xl">
+      {/* Header */}
+      <div className="shrink-0 border-b border-border/40 bg-card/80 px-4 py-4 backdrop-blur-xl md:px-6">
         <div className="flex items-center justify-between gap-4">
           <Link href="/admin" className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-2 text-[13px] text-muted-foreground shadow-sm transition-all hover:bg-muted hover:text-foreground active:scale-[0.98]">
             <ArrowLeft className="h-4 w-4" /> Kembali
           </Link>
           <div className="hidden items-center gap-2 text-[11px] text-muted-foreground md:flex">
-            <span className="rounded-full bg-muted px-2.5 py-1">100vh • No outer scroll</span>
+            <span className="rounded-full bg-muted px-2.5 py-1">Auto ID & Slug</span>
             <span className="rounded-full bg-[#69C4E8]/10 px-2.5 py-1 text-[#69C4E8]">Neon</span>
           </div>
         </div>
@@ -210,64 +289,85 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
             {isEdit ? "Edit Konten" : "Tambah Konten Baru"}
           </h1>
           <p className="mt-1 max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
-            {isEdit ? `Mengedit ${initialData?.id} — perubahan langsung tersimpan ke Neon Database` : "Form responsif, 100vh di desktop dengan scroll internal yang smooth. Isi minimal ID, tipe, judul."}
+            ID dan slug otomatis dari judul — tidak perlu isi manual. Related juga pakai suggestion dropdown dari topik serupa.
           </p>
         </div>
       </div>
 
-      {/* Scrollable form area - flex-1 overflow-y-auto */}
+      {/* Form scrollable */}
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <div className="flex-1 overflow-y-auto px-4 py-6 md:px-6">
           <div className="mx-auto w-full max-w-3xl">
             <div className="rounded-[20px] border border-border bg-card p-5 shadow-sm md:rounded-[24px] md:p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* ID, Slug, Type */}
-                <div className="grid gap-4 md:grid-cols-3">
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">ID *</label>
-                    <input
-                      value={form.id}
-                      onChange={e => setField('id', e.target.value)}
-                      placeholder="quran-al-baqarah-286"
-                      className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-[14px] shadow-sm transition-all focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
-                      required
-                      disabled={isEdit}
-                    />
-                    <p className="text-[11px] text-muted-foreground">Unik, tidak boleh duplikat</p>
+                
+                {/* AUTO ID & SLUG - tidak bisa diisi manual */}
+                <div className="rounded-xl border border-dashed border-border bg-muted/20 p-4">
+                  <p className="mb-3 flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
+                    <Lock className="h-3 w-3" /> ID & Slug Otomatis (Tidak bisa diisi manual)
+                  </p>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-1.5">
+                      <label className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+                        <Link2 className="h-3 w-3" /> ID UNIK OTOMATIS
+                      </label>
+                      <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-3.5 py-2.5">
+                        <Lock className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60" />
+                        <input
+                          value={form.id}
+                          readOnly
+                          placeholder="Otomatis dari judul..."
+                          className="w-full bg-transparent font-mono text-[13px] text-muted-foreground focus:outline-none"
+                        />
+                      </div>
+                      <p className="text-[11px] text-muted-foreground">
+                        {isEdit ? "ID tidak berubah saat edit (primary key)" : "ID unik otomatis dibuat dari judul + random 4 huruf"}
+                      </p>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+                        <Link2 className="h-3 w-3" /> SLUG OTOMATIS
+                      </label>
+                      <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-3.5 py-2.5">
+                        <Lock className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60" />
+                        <input
+                          value={form.slug}
+                          readOnly
+                          placeholder="otomatis-dari-judul"
+                          className="w-full bg-transparent font-mono text-[13px] text-muted-foreground focus:outline-none"
+                        />
+                      </div>
+                      <p className="text-[11px] text-muted-foreground">Slug = judul digabung dengan tanda hubung (-)</p>
+                    </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">Slug</label>
-                    <input
-                      value={form.slug}
-                      onChange={e => setField('slug', e.target.value)}
-                      placeholder="al-baqarah-286"
-                      className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-[14px] shadow-sm transition-all focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
-                    />
-                  </div>
+                </div>
+
+                {/* Tipe & Judul */}
+                <div className="grid gap-4 md:grid-cols-[160px_1fr]">
                   <div className="space-y-1.5">
                     <label className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">Tipe *</label>
                     <select
                       value={form.type}
                       onChange={e => setField('type', e.target.value)}
-                      className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-[14px] shadow-sm transition-all focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
+                      className="w-full rounded-xl border border-border bg-background px-3.5 py-3 text-[14px] font-medium shadow-sm focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
                     >
                       {typeOptions.map(opt => (
                         <option key={opt.value} value={opt.value}>{opt.label}</option>
                       ))}
                     </select>
                   </div>
-                </div>
-
-                {/* Title */}
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">Judul (Bahasa Indonesia) *</label>
-                  <input
-                    value={form.title}
-                    onChange={e => setField('title', e.target.value)}
-                    placeholder="Allah tidak membebani seseorang melainkan sesuai kesanggupannya"
-                    className="w-full rounded-xl border border-border bg-background px-3.5 py-3 text-[15px] font-medium shadow-sm transition-all focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
-                    required
-                  />
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">Judul (Bahasa Indonesia) *</label>
+                    <input
+                      value={form.title}
+                      onChange={e => setField('title', e.target.value)}
+                      placeholder="Ketik judul, ID & slug otomatis terbuat..."
+                      className="w-full rounded-xl border border-border bg-background px-3.5 py-3 text-[15px] font-medium shadow-sm transition-all focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
+                      required
+                      autoFocus
+                    />
+                    <p className="text-[11px] text-muted-foreground">Ketik judul dulu, ID & slug akan otomatis terisi</p>
+                  </div>
                 </div>
 
                 {/* Reference, Category */}
@@ -295,7 +395,7 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
                     <input
                       value={form.subcategory}
                       onChange={e => setField('subcategory', e.target.value)}
-                      placeholder="Tawakal, Ikhlas"
+                      placeholder="Tawakal"
                       className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-[14px] shadow-sm focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
                     />
                   </div>
@@ -320,7 +420,7 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
                     <input
                       value={form.latin}
                       onChange={e => setField('latin', e.target.value)}
-                      placeholder="La yukallifullahu nafsan illa wus'aha"
+                      placeholder="La yukallifullahu..."
                       className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-[14px] italic shadow-sm focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
                     />
                   </div>
@@ -351,7 +451,7 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">Pelajaran & Tadabbur</label>
-                    <button type="button" onClick={() => setLessonArray([...lessonArray, ""])} className="inline-flex items-center gap-1 rounded-full bg-[#69C4E8]/10 px-3 py-1 text-[11px] font-medium text-[#69C4E8] transition-colors hover:bg-[#69C4E8]/20">
+                    <button type="button" onClick={() => setLessonArray([...lessonArray, ""])} className="inline-flex items-center gap-1 rounded-full bg-[#69C4E8]/10 px-3 py-1 text-[11px] font-medium text-[#69C4E8] hover:bg-[#69C4E8]/20">
                       <Plus className="h-3 w-3" /> Tambah
                     </button>
                   </div>
@@ -369,7 +469,7 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
                         className="flex-1 rounded-xl border border-border bg-background px-3.5 py-2.5 text-[14px] leading-relaxed shadow-sm focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
                       />
                       {lessonArray.length > 1 && (
-                        <button type="button" onClick={() => setLessonArray(lessonArray.filter((_, i) => i !== idx))} className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border text-muted-foreground shadow-sm transition-colors hover:bg-red-50 hover:text-red-600">
+                        <button type="button" onClick={() => setLessonArray(lessonArray.filter((_, i) => i !== idx))} className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border text-muted-foreground shadow-sm hover:bg-red-50 hover:text-red-600">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       )}
@@ -389,12 +489,11 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
                   />
                 </div>
 
-                {/* Tags grid responsive */}
-                <div className="grid gap-4 md:grid-cols-3">
+                {/* Tags, Keywords */}
+                <div className="grid gap-4 md:grid-cols-2">
                   {[
                     { key: 'tags' as const, label: 'Tags', placeholder: 'sabar + Enter', input: tagInput, setInput: setTagInput },
-                    { key: 'keywords' as const, label: 'Keywords', placeholder: 'ujian + Enter', input: keywordInput, setInput: setKeywordInput },
-                    { key: 'related' as const, label: 'Related ID', placeholder: 'quran-al-baqarah-286', input: relatedInput, setInput: setRelatedInput },
+                    { key: 'keywords' as const, label: 'Keywords SEO', placeholder: 'ujian + Enter', input: keywordInput, setInput: setKeywordInput },
                   ].map(col => (
                     <div key={col.key} className="space-y-2">
                       <label className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">{col.label}</label>
@@ -402,11 +501,11 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
                         <input
                           value={col.input}
                           onChange={e => col.setInput(e.target.value)}
-                          onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); const trimmed = col.input.trim(); if (trimmed) { const curr = (form[col.key] as string[]) || []; if (!curr.includes(trimmed)) setField(col.key, [...curr, trimmed]); col.setInput("") } } }}
+                          onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); const trimmed = col.input.trim().toLowerCase(); if (trimmed) { const curr = (form[col.key] as string[]) || []; if (!curr.includes(trimmed)) setField(col.key, [...curr, trimmed]); col.setInput("") } } }}
                           placeholder={col.placeholder}
                           className="flex-1 rounded-full border border-border bg-background px-3.5 py-2 text-[13px] shadow-sm focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
                         />
-                        <button type="button" onClick={() => { const trimmed = col.input.trim(); if (!trimmed) return; const curr = (form[col.key] as string[]) || []; if (curr.includes(trimmed)) return; setField(col.key, [...curr, trimmed]); col.setInput("") }} className="grid h-9 w-9 place-items-center rounded-full bg-muted shadow-sm transition-colors hover:bg-muted/80 active:scale-95">
+                        <button type="button" onClick={() => { const trimmed = col.input.trim().toLowerCase(); if (!trimmed) return; const curr = (form[col.key] as string[]) || []; if (curr.includes(trimmed)) return; setField(col.key, [...curr, trimmed]); col.setInput("") }} className="grid h-9 w-9 place-items-center rounded-full bg-muted shadow-sm hover:bg-muted/80 active:scale-95">
                           <Plus className="h-4 w-4" />
                         </button>
                       </div>
@@ -422,11 +521,89 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
                   ))}
                 </div>
 
+                {/* RELATED - Suggestion Dropdown, tidak isi manual */}
+                <div className="space-y-2" ref={relatedRef}>
+                  <label className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
+                    <Link2 className="h-3 w-3" /> Referensi Terkait (Suggestion, bukan isi manual)
+                  </label>
+                  
+                  <div className="relative">
+                    <div className="relative">
+                      <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <input
+                        value={relatedSearch}
+                        onChange={e => { setRelatedSearch(e.target.value); setShowRelatedDropdown(true) }}
+                        onFocus={() => setShowRelatedDropdown(true)}
+                        placeholder="Ketik untuk cari topik serupa... misal sabar, tawakal, al-baqarah"
+                        className="w-full rounded-xl border border-border bg-background py-2.5 pl-10 pr-4 text-[13px] shadow-sm focus:border-[#69C4E8]/50 focus:outline-none focus:ring-2 focus:ring-[#69C4E8]/20"
+                      />
+                    </div>
+
+                    {/* Dropdown suggestions */}
+                    {showRelatedDropdown && (
+                      <div className="absolute left-0 right-0 top-[44px] z-20 max-h-[240px] overflow-y-auto rounded-xl border border-border bg-card p-2 shadow-xl">
+                        {relatedSuggestions.length === 0 ? (
+                          <p className="px-3 py-2 text-[12px] text-muted-foreground">
+                            {existingContents.length === 0 ? "Belum ada konten lain di database (mulai dari 0)" : "Tidak ada topik serupa ditemukan"}
+                          </p>
+                        ) : (
+                          <div className="space-y-1">
+                            {relatedSuggestions.map(suggestion => (
+                              <button
+                                key={suggestion.id}
+                                type="button"
+                                onClick={() => addRelated(suggestion.id)}
+                                className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-muted"
+                              >
+                                <div className="min-w-0 flex-1">
+                                  <p className="truncate text-[13px] font-medium leading-tight">{suggestion.title}</p>
+                                  <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                                    <span className="rounded bg-muted px-1.5 py-0.5 text-[10px]">{suggestion.type}</span>
+                                    <span className="truncate">{suggestion.id}</span>
+                                    {suggestion.category && <span>• {suggestion.category}</span>}
+                                  </p>
+                                </div>
+                                <Plus className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Selected related */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {(form.related || []).map((relId, idx) => {
+                      const relatedEntry = existingContents.find(c => c.id === relId)
+                      return (
+                        <span key={idx} className="inline-flex items-center gap-1.5 rounded-full border border-[#69C4E8]/20 bg-[#69C4E8]/10 px-3 py-1 text-[11px] text-[#0D4A5E] dark:text-[#69C4E8]">
+                          {relatedEntry ? (
+                            <>
+                              <span className="max-w-[160px] truncate font-medium">{relatedEntry.title}</span>
+                              <span className="opacity-60">({relId})</span>
+                            </>
+                          ) : (
+                            relId
+                          )}
+                          <button type="button" onClick={() => removeTag('related', idx)} className="ml-1 rounded-full bg-[#69C4E8]/20 p-0.5 hover:bg-[#69C4E8]/30">
+                            <X className="h-3 w-3" />
+                          </button>
+                        </span>
+                      )
+                    })}
+                  </div>
+
+                  {(form.related || []).length === 0 && (
+                    <p className="text-[11px] text-muted-foreground">Belum ada referensi terkait. Cari di atas untuk suggestion topik serupa.</p>
+                  )}
+                </div>
+
                 {/* YouTube */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">Kajian Terkait (YouTube)</label>
-                    <button type="button" onClick={addYoutube} className="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-[11px] font-medium shadow-sm transition-colors hover:bg-muted/80">
+                    <button type="button" onClick={addYoutube} className="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-[11px] font-medium shadow-sm hover:bg-muted/80">
                       <Plus className="h-3 w-3" /> Tambah Video
                     </button>
                   </div>
@@ -457,15 +634,14 @@ export default function ContentForm({ initialData, isEdit = false }: Props) {
                   </div>
                 )}
 
-                {/* Sticky footer on mobile, normal on desktop */}
                 <div className="sticky bottom-0 -mx-5 mt-8 flex gap-3 border-t border-border/60 bg-card/90 px-5 py-4 backdrop-blur-xl md:static md:mx-0 md:border-0 md:bg-transparent md:px-0 md:py-0">
-                  <Link href="/admin" className="flex flex-1 items-center justify-center rounded-full border border-border bg-card py-3 text-center text-[14px] font-medium shadow-sm transition-all hover:bg-muted active:scale-[0.98]">
+                  <Link href="/admin" className="flex flex-1 items-center justify-center rounded-full border border-border bg-card py-3 text-center text-[14px] font-medium shadow-sm hover:bg-muted active:scale-[0.98]">
                     Batal
                   </Link>
                   <button
                     type="submit"
-                    disabled={loading}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#171717] py-3 text-[14px] font-medium text-white shadow-sm transition-all hover:bg-black hover:shadow-md active:scale-[0.98] disabled:opacity-50 dark:bg-white dark:text-black"
+                    disabled={loading || !form.title}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#171717] py-3 text-[14px] font-medium text-white shadow-sm hover:bg-black hover:shadow-md active:scale-[0.98] disabled:opacity-50 dark:bg-white dark:text-black"
                   >
                     <Save className="h-4 w-4" />
                     {loading ? "Menyimpan..." : isEdit ? "Update" : "Simpan"}
