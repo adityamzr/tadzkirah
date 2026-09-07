@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ContentEntry } from "@/lib/types"
 import { SearchBar } from "./search-bar"
@@ -13,7 +13,6 @@ export function HomeSearch({ entries }: { entries: ContentEntry[] }) {
 
   const [query, setQuery] = useState(initialQ)
 
-  // Update URL debounced for shareability
   useEffect(() => {
     const t = setTimeout(() => {
       const params = new URLSearchParams(window.location.search)
@@ -26,10 +25,14 @@ export function HomeSearch({ entries }: { entries: ContentEntry[] }) {
   }, [query, router])
 
   return (
-    <div className="w-full">
-      <SearchBar value={query} onChange={setQuery} />
-      <div className="mt-2">
-        <SearchResults entries={entries} query={query} />
+    <div className="flex w-full flex-1 flex-col overflow-hidden">
+      <div className="shrink-0">
+        <SearchBar value={query} onChange={setQuery} />
+      </div>
+      <div className="mt-3 flex min-h-0 flex-1 flex-col overflow-hidden md:mt-4">
+        <div className="flex-1 overflow-y-auto rounded-[20px] scrollbar-thin md:px-1">
+          <SearchResults entries={entries} query={query} />
+        </div>
       </div>
     </div>
   )
